@@ -3,6 +3,8 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import Button from 'apsl-react-native-button'
 
+import * as LoginAction from '../../redux/actions/login'
+
 const resetAction = NavigationActions.reset({
     index: 0,
     actions: [
@@ -17,6 +19,15 @@ export default class LoginPage extends React.Component {
         super(props)
         this.state = { account: '', passwd: '' }
     }
+
+    componentWillMount() {
+
+    }
+
+    checkHasLogin() {
+        
+    }
+
     
     render() {
         return (
