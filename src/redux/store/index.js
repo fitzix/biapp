@@ -5,6 +5,5 @@ import reducer from '../reducers'
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore)
 
 export default function initStore(initState) {
-    const store = createStoreWithMiddleware(reducer, initState)
-    return store
+    return createStoreWithMiddleware(reducer, initState)
 }

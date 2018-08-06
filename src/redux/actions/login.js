@@ -1,5 +1,4 @@
-import TYPES from '../types/login'
-import login from '../reducers/login'
+import * as TYPES from '../types'
 
 // 模拟用户信息
 let user = {
@@ -7,31 +6,26 @@ let user = {
     nikeName: '羿璟',
     age: 30,
     pwd: '123456',
-    mobile: 13510005217
+    mobile: '13699146887'
 }
 
 
-export function login(account, passwd) {
+export function logIn(account, passwd) {
     return dispatch => {
-        dispatch(isLogining)
+        dispatch({ type: TYPES.LOGGED_DOING })
 
         if (account === user.mobile && passwd === user.pwd) {
-            dispatch(loginSuccess(true, user))
+            dispatch(loginSuccess(user))
         }
     }
 }
 
-function isLogining() {
-    return {
-        types: TYPES.LOGIN_DOING
-    }
-}
 
-function loginSuccess(succeed, user) {
+function loginSuccess(user) {
     console.log(user)
 
     return {
-        type: TYPES.LOGIN_DONE,
+        type: TYPES.LOGGED_IN,
         user: user
     }
 }

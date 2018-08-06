@@ -7,16 +7,15 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native'
 
 import { Provider } from 'react-redux'
 import { createStackNavigator } from 'react-navigation'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import LoginPage from './src/views/login/login'
 import MainPage from './src/views/main/main'
 
 import initStore from './src/redux/store'
+import storage from './src/utils/storage'
 
 const Store = initStore()
 
@@ -37,7 +36,7 @@ const Navigator = createStackNavigator(
   }
 )
 
-export default class App extends Comment {
+export default class App extends Component {
   render() {
     return (
       // 实现app和store的关联，等于整个系统的组件都被包含住了

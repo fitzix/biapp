@@ -28,41 +28,41 @@ let storage = new Storage({
         // And the passed params will be an all-in-one object.
         // You can use promise here.
         // Or plain callback function with resolve/reject, like:
-        user(params){
-            let {id, resolve, reject, syncParams: {extraFetchOptions, someFlag}} = params;
-            fetch('user/', {
-                method: 'GET',
-                body: 'id=' + id,
-                ...extraFetchOptions,
-            }).then(response => {
-                return response.json();
-            }).then(json => {
-                // console.log(json);
-                if (json && json.user) {
-                    storage.save({
-                        key: 'user',
-                        id,
-                        data: json.user
-                    });
+        // user(params){
+        //     let {id, resolve, reject, syncParams: {extraFetchOptions, someFlag}} = params;
+        //     fetch('user/', {
+        //         method: 'GET',
+        //         body: 'id=' + id,
+        //         ...extraFetchOptions,
+        //     }).then(response => {
+        //         return response.json();
+        //     }).then(json => {
+        //         // console.log(json);
+        //         if (json && json.user) {
+        //             storage.save({
+        //                 key: 'user',
+        //                 id,
+        //                 data: json.user
+        //             });
 
-                    if (someFlag) {
-                        // do something for this extra param
-                    }
+        //             if (someFlag) {
+        //                 // do something for this extra param
+        //             }
 
-                    // Call resolve() when succeed
-                    resolve && resolve(json.user);
-                }
-                else {
-                    // Call reject() when failed
-                    reject && reject(new Error('data parse error'));
-                }
-            }).catch(err => {
-                console.warn(err);
-                reject && reject(err);
-            });
-        }
+        //             // Call resolve() when succeed
+        //             resolve && resolve(json.user);
+        //         }
+        //         else {
+        //             // Call reject() when failed
+        //             reject && reject(new Error('data parse error'));
+        //         }
+        //     }).catch(err => {
+        //         console.warn(err);
+        //         reject && reject(err);
+        //     });
+        // }
     }
-});
+})
 
 // 全局变量
-global.storage = storage;
+global.storage = storage
