@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    isLoggedIn: state.login.isLoggedIn,
-    user: state.login.user,
-    status: state.login.status
+    isLoggedIn: state.auth.isLoggedIn,
+    user: state.auth.user,
+    status: state.auth.status
 })
 
 export default connect(mapStateToProps)(LoginPage)

@@ -1,0 +1,29 @@
+export default {
+    url: '',
+    // 基础路径
+    baseURL: process.env.BASE_API,
+
+    method: 'POST',
+
+    transformRequest: [function (data) {
+        data = JSON.stringify(data)
+        return data
+    }],
+   
+    headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
+
+    // 'PUT', 'POST', 和 'PATCH' 提交的数据体
+    data: {},
+    // 请求超时时长
+    timeout: 5000,
+    withCredentials: false, // default
+
+    // default 响应
+    responseType: 'json',
+
+    /** 定义允许的http响应内容的最大大小**/
+    maxContentLength: 10000,
+
+    /** 如果设置为0，则不会遵循重定向。**/
+    maxRedirects: 5 /* 默认 */
+}
