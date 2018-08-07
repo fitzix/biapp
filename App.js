@@ -8,13 +8,11 @@
 
 import React, {Component} from 'react';
 
-import { Provider } from 'react-redux'
 import { createStackNavigator } from 'react-navigation'
 
 import LoginPage from './src/views/login/login'
 import MainPage from './src/views/main/main'
 
-import store from './src/redux/store'
 import storage from './src/utils/storage'
 import NavigatorService from './src/services/navigator'
 
@@ -35,13 +33,12 @@ const Navigator = createStackNavigator(
   }
 )
 
+
+
 export default class App extends Component {
   render() {
     return (
-      // 实现app和store的关联，等于整个系统的组件都被包含住了
-      <Provider store={store}>
-        <Navigator ref={ navigatorRef => { NavigatorService.setContainer(navigatorRef) }} />
-      </Provider>
+      <Navigator ref={ navigatorRef => { NavigatorService.setContainer(navigatorRef) }} />
     )
   }
 }

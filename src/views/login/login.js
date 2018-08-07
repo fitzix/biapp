@@ -1,9 +1,7 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
-import { connect } from 'react-redux'
 import { StackActions, NavigationActions } from 'react-navigation'
 import Button from 'apsl-react-native-button'
-import * as LoginAction from '../../redux/actions/login'
 import { apiLogin } from '../../api/index'
 
 const resetAction = StackActions.reset({
@@ -13,7 +11,7 @@ const resetAction = StackActions.reset({
     ]
 })
 
-class LoginPage extends React.Component {
+export default class LoginPage extends React.Component {
     static navigationOptions = { header: null }
 
     constructor(props) {
@@ -93,13 +91,5 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: 'white'
-    },
+    }
 })
-
-const mapStateToProps = state => ({
-    isLoggedIn: state.auth.isLoggedIn,
-    user: state.auth.user,
-    status: state.auth.status
-})
-
-export default connect(mapStateToProps)(LoginPage)
