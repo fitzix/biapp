@@ -1,4 +1,5 @@
 import * as TYPES from '../types'
+import { apiLogin } from '../../api'
 
 // 模拟用户信息
 let user = {
@@ -21,9 +22,7 @@ export function logIn(account, passwd) {
 }
 
 
-function loginSuccess(user) {
-    console.log(user)
-
+export function loginSuccess(user) {
     return {
         type: TYPES.LOGGED_IN,
         user: user

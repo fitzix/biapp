@@ -1,4 +1,5 @@
 {
   "name": "biapp",
-  "displayName": "biapp"
+  "displayName": "biapp",
+  "apiGatewayURL": "http://test.bigdata.leuok.com"
 }

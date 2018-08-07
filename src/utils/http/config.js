@@ -1,7 +1,9 @@
+import {apiGatewayURL} from '../../../app.json'
+
 export default {
-    url: '',
+    
     // 基础路径
-    baseURL: process.env.BASE_API,
+    baseURL: `${apiGatewayURL}/`,
 
     method: 'POST',
 
@@ -12,10 +14,9 @@ export default {
    
     headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
 
-    // 'PUT', 'POST', 和 'PATCH' 提交的数据体
-    data: {},
     // 请求超时时长
     timeout: 5000,
+
     withCredentials: false, // default
 
     // default 响应

@@ -3,8 +3,8 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { StackActions, NavigationActions } from 'react-navigation'
 import Button from 'apsl-react-native-button'
-
 import * as LoginAction from '../../redux/actions/login'
+import { apiLogin } from '../../api/index'
 
 const resetAction = StackActions.reset({
     index: 0,
@@ -33,7 +33,9 @@ class LoginPage extends React.Component {
             if (ret && ret.name) {
                 this.props.navigation.dispatch(resetAction)
             }
-        }).catch(err => {})
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -43,7 +45,14 @@ class LoginPage extends React.Component {
 
     handleLogin() {
         this.setState({ isLoading: true })
-        this.props.dispatch(LoginAction.logIn(this.state.account, this.state.passwd))
+        apiLogin(this.state.account, this.state.passwd).then(resp => {
+            
+        }).catch(err => {
+            console.log(err)
+        }).finally( _ => {
+            this.setState({ isLoading: false })
+        })
+        // this.props.dispatch(LoginAction.logIn(this.state.account, this.state.passwd))
     }
 
     
