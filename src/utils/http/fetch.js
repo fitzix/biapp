@@ -1,16 +1,17 @@
 import axios from 'axios'
-import store from '../../redux/store'
 import defaultConfig from './config'
 import NavigatorService from '../../services/navigator'
 import Toast from 'teaset/components/Toast/Toast'
 
+import storageUtil from '../storage'
+
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(async function (config) {
     // Do something before request is sent
-    let auth = store.getState().auth
-    if (auth.isLoggedIn) {
-        config.data.user_id = auth.user.uid
-        config.data.sid = auth.user.sid
+    if (await storageUtil.isLogin()) {
+        let user = await storageUtil.getUser()
+        config.data.user_id = user.uid
+        config.data.sid = user.sid
     }
     return config
   }, function (error) {
@@ -31,11 +32,13 @@ axios.interceptors.response.use(function (response) {
         }
         Toast.fail(response.data.msg)
         return Promise.reject(response.data)
+    } else if (response.data.hasOwnProperty('response')) {
+        return response.data.response
     }
-    return response;
+    return response.data;
   }, function (error) {
     // Do something with response error
-    return Promise.reject(error);
+    return Promise.reject(error)
 })
 
 export function post(url, data, timeout) {

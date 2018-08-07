@@ -2,7 +2,9 @@ import React from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import Button from 'apsl-react-native-button'
+
 import { apiLogin } from '../../api/index'
+import storageUtil from '../../utils/storage'
 
 const resetAction = StackActions.reset({
     index: 0,
@@ -11,40 +13,28 @@ const resetAction = StackActions.reset({
     ]
 })
 
-export default class LoginPage extends React.Component {
+export default class LoginPage extends React.Component<> {
     static navigationOptions = { header: null }
 
     constructor(props) {
         super(props)
-        this.state = { account: '', passwd: '', isLoading: false }
+        this.state = { account: '曹俊凯', passwd: '', isLoading: false }
     }
 
-    componentWillMount() {
-        this.checkHasLogin()
+    async componentWillMount() {
+        if (await storageUtil.isLogin()) {
+            this.props.navigation.dispatch(resetAction)
+        }
     }
-
-    checkHasLogin() {
-        global.storage.load({
-            key: 'user',
-            autoSync: false
-        }).then(ret => {
-            if (ret && ret.name) {
-                this.props.navigation.dispatch(resetAction)
-            }
-        }).catch(err => {
-            console.log(err)
-        })
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
-    }
-
 
     handleLogin() {
         this.setState({ isLoading: true })
         apiLogin(this.state.account, this.state.passwd).then(resp => {
+            console.log(resp);
             
+
+            storageUtil.save('user', resp.user)
+            this.props.navigation.dispatch(resetAction)
         }).catch(err => {
             console.log(err)
         }).finally( _ => {

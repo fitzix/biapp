@@ -13,8 +13,10 @@ import { createStackNavigator } from 'react-navigation'
 import LoginPage from './src/views/login/login'
 import MainPage from './src/views/main/main'
 
-import storage from './src/utils/storage'
+import storage from './src/utils/storage/storage'
 import NavigatorService from './src/services/navigator'
+
+type Props = {}
 
 const Navigator = createStackNavigator(
   {
@@ -35,7 +37,7 @@ const Navigator = createStackNavigator(
 
 
 
-export default class App extends Component {
+export default class App extends Component<Props> {
   render() {
     return (
       <Navigator ref={ navigatorRef => { NavigatorService.setContainer(navigatorRef) }} />

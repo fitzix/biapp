@@ -1,5 +1,6 @@
 {
   "name": "biapp",
   "displayName": "biapp",
-  "apiGatewayURL": "http://test.bigdata.leuok.com"
+  "apiGatewayURL": "http://test.bigdata.leuok.com",
+  "desPubKey": ["xmob", "X", "MOB"]
 }
