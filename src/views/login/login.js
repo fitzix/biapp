@@ -9,38 +9,34 @@ import storageUtil from '../../utils/storage'
 const resetAction = StackActions.reset({
     index: 0,
     actions: [
-        NavigationActions.navigate({ routeName: 'Main' })
+        NavigationActions.navigate({ routeName: 'MainPage' })
     ]
 })
 
 export default class LoginPage extends React.Component<> {
     static navigationOptions = { header: null }
 
-    constructor(props) {
-        super(props)
-        this.state = { account: '曹俊凯', passwd: '', isLoading: false }
+    state = {
+      account: '曹俊凯',
+      passwd: '',
+      isLoading: false
     }
 
     async componentWillMount() {
         if (await storageUtil.isLogin()) {
-            this.props.navigation.dispatch(resetAction)
+          this.props.navigation.dispatch(resetAction)
         }
     }
 
     handleLogin() {
         this.setState({ isLoading: true })
         apiLogin(this.state.account, this.state.passwd).then(resp => {
-            console.log(resp);
-            
-
             storageUtil.save('user', resp.user)
             this.props.navigation.dispatch(resetAction)
         }).catch(err => {
-            console.log(err)
-        }).finally( _ => {
             this.setState({ isLoading: false })
+            console.log(err)
         })
-        // this.props.dispatch(LoginAction.logIn(this.state.account, this.state.passwd))
     }
 
     

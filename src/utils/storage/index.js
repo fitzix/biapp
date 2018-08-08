@@ -1,11 +1,11 @@
 
 const storageUtil = {
     async isLogin() {
-        return await global.storage.load({ key: 'user'}).then( _ => true).catch( _ => false)
+        return await global.storage.load({ key: 'user'}).then( () => true).catch( () => false)
     },
 
     async getUser() {
-        return await global.storage.load({ key: 'user'}).then(ret => ret.user)
+        return await global.storage.load({ key: 'user'}).then(ret => ret)
     },
     
     save(key, data) {
@@ -13,6 +13,12 @@ const storageUtil = {
             key: key,
             data: data,
         })
+    },
+
+    clearAll() {
+      global.storage.remove({ key: 'user' })
+      global.storage.remove({ key: 'gameTypes' })
+      global.storage.remove({ key: 'gameList' })
     }
 }
 

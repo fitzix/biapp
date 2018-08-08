@@ -2,6 +2,8 @@ import React from 'react'
 import {AsyncStorage} from 'react-native'
 import Storage from 'react-native-storage'
 
+import { apiGameTypes, apiListByType } from '../../api/index'
+
 let storage = new Storage({
     // 最大容量，默认值1000条数据循环存储
     size: 1000,
@@ -23,46 +25,23 @@ let storage = new Storage({
     // 或是写到另一个文件里，这里require引入
     // 或是在任何时候，直接对storage.sync进行赋值修改
     sync: {
-
-        // The name of the sync method must be the same of the data's key
-        // And the passed params will be an all-in-one object.
-        // You can use promise here.
-        // Or plain callback function with resolve/reject, like:
-        // user(params){
-        //     let {id, resolve, reject, syncParams: {extraFetchOptions, someFlag}} = params;
-        //     fetch('user/', {
-        //         method: 'GET',
-        //         body: 'id=' + id,
-        //         ...extraFetchOptions,
-        //     }).then(response => {
-        //         return response.json();
-        //     }).then(json => {
-        //         // console.log(json);
-        //         if (json && json.user) {
-        //             storage.save({
-        //                 key: 'user',
-        //                 id,
-        //                 data: json.user
-        //             });
-
-        //             if (someFlag) {
-        //                 // do something for this extra param
-        //             }
-
-        //             // Call resolve() when succeed
-        //             resolve && resolve(json.user);
-        //         }
-        //         else {
-        //             // Call reject() when failed
-        //             reject && reject(new Error('data parse error'));
-        //         }
-        //     }).catch(err => {
-        //         console.warn(err);
-        //         reject && reject(err);
-        //     });
-        // }
+        gameTypes() {
+          apiGameTypes().then(ret => {
+            storage.save({ key: 'gameTypes', data: ret.info })
+            return ret.info
+          }).catch(err => {
+            return Promise.reject(err)
+          })
+        },
+        gameList() {
+          apiListByType([1]).then( ret => {
+            storage.save({ key: 'gameList', data: ret.info.games })
+            return ret.info.games
+          }).catch(err => {
+            return Promise.reject(err)
+          })
+        }
     }
 })
 
-// 全局变量
-global.storage = storage
+export default storage

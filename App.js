@@ -18,29 +18,29 @@ import NavigatorService from './src/services/navigator'
 
 type Props = {}
 
-const Navigator = createStackNavigator(
+// 全局变量
+global.storage = storage
+
+const TopLevelNavigator = createStackNavigator(
   {
-    Login: LoginPage,
-    Main: {
-      screen: MainPage,
-      navigationOptions: {
-        header: null, //去头部
-        headerLeft: null
-      }
-    }
+    LoginPage: LoginPage,
+    MainPage: MainPage
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'LoginPage',
     headerMode: 'screen'
   }
 )
 
+if (__DEV__) {
+  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest
+}
 
 
 export default class App extends Component<Props> {
   render() {
     return (
-      <Navigator ref={ navigatorRef => { NavigatorService.setContainer(navigatorRef) }} />
+      <TopLevelNavigator ref={ navigatorRef => { NavigatorService.setTopLevelNavigator(navigatorRef) }} />
     )
   }
 }
