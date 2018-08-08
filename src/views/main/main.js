@@ -83,8 +83,10 @@ export default class tabPage extends React.Component {
   }
 
   async componentWillMount() {
+    console.log('will mount')
     let types = await global.storage.load({key: 'gameTypes'}).then(ret => ret).catch(() => [])
     let games = await global.storage.load({key: 'gameList'}).then(ret => ret).catch(() => [])
+    console.log(types, games)
     RestoreUtil.parseGameTypes(types, games)
     this.setState({sectionData: types})
   }

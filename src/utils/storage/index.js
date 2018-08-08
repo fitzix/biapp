@@ -7,6 +7,10 @@ const storageUtil = {
     async getUser() {
         return await global.storage.load({ key: 'user'}).then(ret => ret)
     },
+
+    getUserPwd() {
+      return global.storage.load({ key: 'userPwd'})
+    },
     
     save(key, data) {
         global.storage.save({

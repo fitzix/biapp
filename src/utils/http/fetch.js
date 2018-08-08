@@ -10,7 +10,6 @@ axios.interceptors.request.use(async function (config) {
     // Do something before request is sent
     if (await storageUtil.isLogin()) {
         let user = await storageUtil.getUser()
-        console.log(user)
         config.data.user_id = user.uid
         config.data.sid = user.sid
     }
