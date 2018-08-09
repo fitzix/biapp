@@ -25,20 +25,23 @@ let storage = new Storage({
     // 或是写到另一个文件里，这里require引入
     // 或是在任何时候，直接对storage.sync进行赋值修改
     sync: {
-        gameTypes() {
+        gameTypes(params) {
+          let { resolve, reject } = params
           apiGameTypes().then(ret => {
             storage.save({ key: 'gameTypes', data: ret.info })
-            return ret.info
+            resolve(ret.info)
           }).catch(err => {
-            return Promise.reject(err)
+            reject(err)
           })
         },
-        gameList() {
-          apiListByType([1]).then( ret => {
-            storage.save({ key: 'gameList', data: ret.info.games })
-            return ret.info.games
+        searchList(params) {
+          console.log(params)
+          let { id, resolve, reject } = params
+          apiListByType([1, 2, 3, 4, 5], id).then( ret => {
+            storage.save({ key: 'searchList', id: id, data: ret.info })
+            resolve(ret.info)
           }).catch(err => {
-            return Promise.reject(err)
+            reject(err)
           })
         }
     }

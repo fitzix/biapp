@@ -15,11 +15,14 @@ import MainPage from './src/views/main/main'
 
 import storage from './src/utils/storage/storage'
 import NavigatorService from './src/services/navigator'
+import { Theme } from 'teaset'
 
 type Props = {}
 
 // 全局变量
 global.storage = storage
+// ipx
+Theme.set ({fitIPhoneX: true})
 
 const TopLevelNavigator = createStackNavigator(
   {

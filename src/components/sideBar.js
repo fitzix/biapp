@@ -21,7 +21,6 @@ export default class SideBarPage {
   static async loadData() {
     let types = await global.storage.load({ key: 'GAME_TYPES' }).then(ret => ret).catch(() => [])
     let games = await global.storage.load({ key: 'GAME_LIST' }).then(ret => ret).catch(() => [])
-    console.log(types, games)
     SideBarPage.sectionData = RestoreDataUtil.parseGameTypes(types, games)
   }
 

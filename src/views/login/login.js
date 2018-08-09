@@ -1,11 +1,13 @@
 import React from 'react'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Text, TextInput, StyleSheet, Keyboard } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import Button from 'apsl-react-native-button'
-import { Checkbox } from 'teaset'
+
+import LLTextInput from '../../components/LLTextInput'
 
 import { apiLogin } from '../../api/index'
 import storageUtil from '../../utils/storage'
+
 
 const resetAction = StackActions.reset({
     index: 0,
@@ -18,10 +20,9 @@ export default class LoginPage extends React.Component<> {
     static navigationOptions = { header: null }
 
     state = {
-      account: '',
+      account: '曹俊凯',
       passwd: '',
-      isLoading: false,
-      checked: true
+      isLoading: false
     }
 
     async componentWillMount() {
@@ -34,12 +35,10 @@ export default class LoginPage extends React.Component<> {
         }
     }
 
-    handleLogin() {
+  handleLogin() {
         this.setState({ isLoading: true })
         apiLogin(this.state.account, this.state.passwd).then(resp => {
-            if (this.state.checked) {
-              storageUtil.save('userPwd', { account: this.state.account, passwd: this.state.passwd })
-            }
+            storageUtil.save('userPwd', { account: this.state.account, passwd: this.state.passwd })
             storageUtil.save('user', resp.user)
             this.props.navigation.dispatch(resetAction)
         }).catch(err => {
@@ -51,13 +50,12 @@ export default class LoginPage extends React.Component<> {
     
     render() {
         return (
-            <View style={ styles.container }>
+            <KeyboardAvoidingView style={ styles.container } behavior="padding">
                 <Text style={ styles.appTitle }>BiApp</Text>
-                <TextInput style={ styles.loginInput } placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})} />
+                <LLTextInput style={ styles.loginInput } placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})}  />
                 <TextInput style={ styles.loginInput } clearButtonMode='while-editing' placeholder="请输入密码" value={this.state.passwd} onChangeText={(passwd) => this.setState({passwd})} secureTextEntry= {true} />
-                <Checkbox style={ styles.remPwd } title='记住密码' checked={this.state.checked} onChange={checked => this.setState({checked})}/>
                 <Button style={ styles.buttonStyle } isLoading={this.state.isLoading} textStyle={styles.textStyle} onPress={ () => this.handleLogin()}>登录</Button>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -80,11 +78,6 @@ const styles = StyleSheet.create({
         borderBottomColor: 'tomato',
         alignSelf: 'stretch',
         marginTop: 20,
-    },
-    remPwd: {
-      marginTop: 20,
-      color: 'tomato',
-      alignSelf: 'flex-end'
     },
     buttonStyle: {
         borderWidth: 0,

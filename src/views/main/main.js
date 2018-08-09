@@ -10,7 +10,7 @@ import ReportPage from '../report'
 import SharedPage from '../shared'
 import UserPage from '../user'
 
-import RestoreUtil from "../../utils/restore"
+import StorageUtil from '../../utils/storage'
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -38,7 +38,7 @@ const TabNavigator = createBottomTabNavigator(
         tabBarIcon: ({tintColor}) => {
           return <Ionicons name="ios-paper-plane" size={25} color={tintColor}/>
         },
-        tabBarLabel: '分项数据'
+        tabBarLabel: '分享数据'
       }
     },
     UserPage: {
@@ -67,7 +67,7 @@ export default class tabPage extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.getParam('navBarTitle', '全民小镇'),
+      title: navigation.getParam('navBarTitle', ''),
       headerLeft: (
         <Ionicons name="ios-menu" style={{marginLeft: 10, marginBottom: -8}} size={25} color="tomato" onPress={navigation.getParam('openSideBar')}/>
       )
@@ -78,45 +78,56 @@ export default class tabPage extends React.Component {
     sectionData: []
   }
 
-  _showSideBar = () => {
-    Drawer.open(this.renderDrawerMenu())
-  }
 
-  async componentWillMount() {
-    console.log('will mount')
-    let types = await global.storage.load({key: 'gameTypes'}).then(ret => ret).catch(() => [])
-    let games = await global.storage.load({key: 'gameList'}).then(ret => ret).catch(() => [])
-    console.log(types, games)
-    RestoreUtil.parseGameTypes(types, games)
-    this.setState({sectionData: types})
+  componentWillMount() {
+    console.log('render sidebar')
+    StorageUtil.getSideBarData().then(({data, game}) => {
+      console.log(data, game)
+      this.props.navigation.setParams({navBarTitle: game.name})
+      this.setState({sectionData: data})
+    }).catch(() => {})
   }
 
   componentDidMount() {
     this.props.navigation.setParams({openSideBar: this._showSideBar})
   }
 
+  render() {
+    return (
+      <TabNavigator navigation={this.props.navigation}/>
+    )
+  }
+
+  _showSideBar = () => {
+    this.drawer = Drawer.open(this.renderDrawerMenu())
+  }
+
+  onChooseGame(game) {
+    // 当前游戏
+    global.storage.save({
+      key: 'game',
+      data: game
+    })
+    this.props.navigation.setParams({navBarTitle: game.name})
+    this.drawer && this.drawer.close()
+  }
+
   renderDrawerMenu() {
-    console.log(this.state.sectionData)
     return (
       <View style={{backgroundColor: Theme.defaultColor, width: 260, flex: 1}}>
-        <View style={{height: 60}}/>
+        <View style={{height: 40}}/>
         <SectionList
-          renderItem={({item}) => <ListRow title={ item.name } titleStyle={{ fontSize: 14 }}  /> }
-          renderSectionHeader={({section: { name }}) => {
-              return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center' }} title={ name } bottomSeparator='none'/>
+          renderItem={({item}) => <ListRow title={ item.name } titleStyle={{ fontSize: 14 }} onPress={() =>  this.onChooseGame(item) } /> }
+          renderSectionHeader={({section: { name, data }}) => {
+            if (data.length > 0) {
+                return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center', fontSize: 16 }} title={ name } bottomSeparator='none'/>
+              }
           }}
           sections={ this.state.sectionData }
           keyExtractor={(item, index) => item + index}
         />
         <View style={{height: 60}}/>
       </View>
-    )
-  }
-
-
-  render() {
-    return (
-      <TabNavigator navigation={this.props.navigation}/>
     )
   }
 }
