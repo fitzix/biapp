@@ -11,6 +11,7 @@ import SharedPage from '../shared'
 import UserPage from '../user'
 
 import StorageUtil from '../../utils/storage'
+import NavService from '../../services/navigator'
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -63,6 +64,10 @@ const TabNavigator = createBottomTabNavigator(
 
 export default class tabPage extends React.Component {
 
+  state = {
+    sectionData: []
+  }
+
   static router = TabNavigator.router
 
   static navigationOptions = ({navigation}) => {
@@ -72,10 +77,6 @@ export default class tabPage extends React.Component {
         <Ionicons name="ios-menu" style={{marginLeft: 10, marginBottom: -8}} size={25} color="tomato" onPress={navigation.getParam('openSideBar')}/>
       )
     }
-  }
-
-  state = {
-    sectionData: []
   }
 
 
@@ -92,7 +93,7 @@ export default class tabPage extends React.Component {
 
   render() {
     return (
-      <TabNavigator navigation={this.props.navigation}  />
+      <TabNavigator navigation={this.props.navigation} />
     )
   }
 
@@ -106,8 +107,8 @@ export default class tabPage extends React.Component {
       key: 'game',
       data: game
     })
-    this.props.navigation.setParams({navBarTitle: game.name})
     this.drawer && this.drawer.close()
+    NavService.reset('MainPage')
   }
 
   renderDrawerMenu() {

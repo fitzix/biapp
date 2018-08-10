@@ -7,14 +7,7 @@ import LLTextInput from '../../components/LLTextInput'
 
 import { apiLogin } from '../../api/index'
 import storageUtil from '../../utils/storage'
-
-
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [
-        NavigationActions.navigate({ routeName: 'MainPage' })
-    ]
-})
+import NavService from '../../services/navigator'
 
 export default class LoginPage extends React.Component<> {
     static navigationOptions = { header: null }
@@ -31,7 +24,7 @@ export default class LoginPage extends React.Component<> {
       }).catch(() =>{})
 
         if (await storageUtil.isLogin()) {
-          this.props.navigation.dispatch(resetAction)
+          NavService.reset('MainPage')
         }
     }
 
@@ -40,7 +33,7 @@ export default class LoginPage extends React.Component<> {
         apiLogin(this.state.account, this.state.passwd).then(resp => {
             storageUtil.save('userPwd', { account: this.state.account, passwd: this.state.passwd })
             storageUtil.save('user', resp.user)
-            this.props.navigation.dispatch(resetAction)
+            NavService.reset('MainPage')
         }).catch(err => {
             this.setState({ isLoading: false })
             console.log(err)

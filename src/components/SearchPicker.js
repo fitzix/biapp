@@ -78,6 +78,9 @@ export default class SearchPicker extends Component {
               marginLeft: 20
             }
           }}
+          colors={{
+            cancel: 'tomato'
+          }}
           items={this.state.options}
           uniqueKey='id'
           subKey='data'

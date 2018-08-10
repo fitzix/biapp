@@ -19,11 +19,6 @@ export default class RealTimePage extends Component {
 
   static hudKey = null
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('sdsdssssad', nextProps, nextState)
-  }
-
-
   render() {
     return (
       <ScrollView style={{backgroundColor: '#f8f8f8'}}>
@@ -70,7 +65,6 @@ export default class RealTimePage extends Component {
     RealTimePage.hudKey = HUD.show()
     apiRealTime(selected, this.state.curSegmented + 1).then(ret => {
       this.setState({ curSelected: selected, data: ret.info })
-      console.log(this.state.data)
     }).finally(() => {
       HUD.hide(RealTimePage.hudKey)
     })
@@ -92,6 +86,5 @@ const styles = StyleSheet.create({
   chart: {
     height: 300,
     marginTop: 10,
-    marginRight: 10
   },
 })
