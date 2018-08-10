@@ -31,8 +31,18 @@ export async function apiRealTime(options, type) {
 
   try {
     let curGame = await StorageUtil.getCurGame()
-    return postEntryHandler(104004, { ...options, type: type, gameId: curGame.id })
+    return postEntryHandler(104004, { ...options, type, gameId: curGame.id })
   } catch (e) {
+    return Promise.reject(e)
+  }
+}
+
+// 区服top5
+export async function apiGetTop5(curPage, pageSize, type) {
+  try {
+    let curGame = await StorageUtil.getCurGame()
+    return postEntryHandler(200031004, { curPage, pageSize, type, gameId: curGame.id })
+  }catch (e) {
     return Promise.reject(e)
   }
 }

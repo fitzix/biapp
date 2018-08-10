@@ -1,23 +1,47 @@
 import React, {Component} from 'react'
-import {Text, View, ScrollView, StyleSheet, Alert} from "react-native"
+import { ScrollView, StyleSheet } from "react-native"
 import {SegmentedBar} from 'teaset'
+import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
 
 
 import SearchPicker from '../../components/SearchPicker'
 import WebChart from '../../components/WeCharts'
 import HUD from '../../components/Hud'
-import { apiRealTime } from '../../api'
+import { apiRealTime, apiGetTop5 } from '../../api'
 
 
 export default class RealTimePage extends Component {
 
   state = {
     curSelected: {},
-    curSegmented: 0,
-    data: null
+    chartSeg: 0,
+    tableSeg: 0,
+    chartData: null,
+    tableData: {
+      head: ['#', '类型', '数量', '日环比'],
+      title: [],
+      data: []
+    }
   }
 
   static hudKey = null
+
+  componentWillMount() {
+    let result = { title: [], data: [] }
+    apiGetTop5(1, 5, this.state.tableSeg + 1).then(ret => {
+      ret.info.forEach((el, index) => {
+        result.title.push(index)
+        result.data.push([el.id, el.count, el.day])
+      })
+    }).finally(() => {
+      this.setState(state => {
+        state.tableData.title = result.title
+        state.tableData.data = result.data
+        return state
+      })
+    })
+  }
+
 
   render() {
     return (
@@ -44,7 +68,7 @@ export default class RealTimePage extends Component {
               tooltip: {},
               dataset: {
                 dimensions: ['axis', 'count1', 'count2', 'count3'],
-                source: this.state.data || [{ axis: null, count1: 0, count2: 0, count3: 0 }]
+                source: this.state.chartData || [{ axis: null, count1: 0, count2: 0, count3: 0 }]
               },
               xAxis: {type: 'category'},
               yAxis: {},
@@ -56,6 +80,22 @@ export default class RealTimePage extends Component {
             }
           }
         />
+
+        <SegmentedBar  style={styles.topDataSeg} justifyItem='scrollable' onChange={(index) => this.onTabSegChange(index)}>
+          <SegmentedBar.Item title='渠道新增Top5' />
+          <SegmentedBar.Item title='渠道付费Top5' />
+          <SegmentedBar.Item title='区服在线Top5' />
+          <SegmentedBar.Item title='区服付费Top5' />
+        </SegmentedBar>
+
+        <Table style={styles.topTableContainer} borderStyle={{borderColor: '#C0C0C0'}}>
+          <Row data={this.state.tableData.head} flexArr={[1, 1, 1, 1]} style={styles.topTableHead} textStyle={styles.topTableText}/>
+          <TableWrapper style={styles.topTableWrapper}>
+            <Col data={this.state.tableData.title} style={styles.topTableTitle} heightArr={[28,28]} textStyle={styles.topTableText}/>
+            <Rows data={this.state.tableData.data} flexArr={[1, 1, 1]} style={styles.topTableRow} textStyle={styles.topTableText}/>
+          </TableWrapper>
+        </Table>
+
       </ScrollView>
     )
   }
@@ -63,8 +103,8 @@ export default class RealTimePage extends Component {
   // 点击查询
   onSearch = (selected) => {
     RealTimePage.hudKey = HUD.show()
-    apiRealTime(selected, this.state.curSegmented + 1).then(ret => {
-      this.setState({ curSelected: selected, data: ret.info })
+    apiRealTime(selected, this.state.chartSeg + 1).then(ret => {
+      this.setState({ curSelected: selected, chartData: ret.info })
     }).finally(() => {
       HUD.hide(RealTimePage.hudKey)
     })
@@ -72,11 +112,31 @@ export default class RealTimePage extends Component {
 
 
   onSegmentedBarChange(index) {
-    this.setState({ curSegmented: index, data: null })
+    let chartData = null
     RealTimePage.hudKey = HUD.show()
     apiRealTime(this.state.curSelected, index + 1).then(ret => {
-      this.setState({ data: ret.info })
+      chartData = ret.info
     }).finally(() => {
+      this.setState({ chartSeg: index, chartData: chartData })
+      HUD.hide(RealTimePage.hudKey)
+    })
+  }
+
+  onTabSegChange(index) {
+    let result = { title: [], data: [] }
+    RealTimePage.hudKey = HUD.show()
+    apiGetTop5(1, 5, index + 1).then(ret => {
+      ret.info.forEach((el, i) => {
+        result.title.push(i)
+        result.data.push([el.id, el.count, el.day])
+      })
+    }).finally(() => {
+      this.setState(state => {
+        state.tableData.title = result.title
+        state.tableData.data = result.data
+        state.tableSeg = index
+        return state
+      })
       HUD.hide(RealTimePage.hudKey)
     })
   }
@@ -87,4 +147,17 @@ const styles = StyleSheet.create({
     height: 300,
     marginTop: 10,
   },
+  topDataSeg: {
+    marginTop: -20
+  },
+  topTableContainer: {
+    marginTop: 10
+  },
+  topTableHead: {
+    height: 20,
+  },
+  topTableWrapper: { flexDirection: 'row' },
+  topTableTitle: { flex: 1 },
+  topTableRow: {  height: 28  },
+  topTableText: { textAlign: 'center', color: '#5E5E5E' }
 })

@@ -9,16 +9,14 @@
   "dependencies": {
     "apsl-react-native-button": "^3.1.1",
     "axios": "^0.18.0",
-    "moment": "^2.22.2",
-    "prop-types": "latest",
     "react": "16.4.1",
     "react-native": "0.56.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-sectioned-multi-select": "^0.5.2",
     "react-native-storage": "^0.2.2",
+    "react-native-table-component": "^1.1.8",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.10.0",
-    "redux-thunk": "^2.3.0",
     "teaset": "^0.5.9"
   },
   "devDependencies": {
