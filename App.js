@@ -22,7 +22,13 @@ type Props = {}
 // 全局变量
 global.storage = storage
 // ipx
-Theme.set ({fitIPhoneX: true})
+Theme.set({
+  fitIPhoneX: true,
+  primaryColor: 'tomato',
+  sbBtnActiveTitleColor: 'tomato',
+  sbIndicatorLineColor: 'tomato'
+})
+
 
 const TopLevelNavigator = createStackNavigator(
   {

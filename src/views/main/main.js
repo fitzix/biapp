@@ -80,9 +80,7 @@ export default class tabPage extends React.Component {
 
 
   componentWillMount() {
-    console.log('render sidebar')
     StorageUtil.getSideBarData().then(({data, game}) => {
-      console.log(data, game)
       this.props.navigation.setParams({navBarTitle: game.name})
       this.setState({sectionData: data})
     }).catch(() => {})
@@ -94,7 +92,7 @@ export default class tabPage extends React.Component {
 
   render() {
     return (
-      <TabNavigator navigation={this.props.navigation}/>
+      <TabNavigator navigation={this.props.navigation}  />
     )
   }
 

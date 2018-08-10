@@ -35,7 +35,6 @@ let storage = new Storage({
           })
         },
         searchList(params) {
-          console.log(params)
           let { id, resolve, reject } = params
           apiListByType([1, 2, 3, 4, 5], id).then( ret => {
             storage.save({ key: 'searchList', id: id, data: ret.info })
