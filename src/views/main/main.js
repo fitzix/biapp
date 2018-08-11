@@ -57,6 +57,7 @@ const TabNavigator = createBottomTabNavigator(
       tabBarOptions: {
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
+        style: { padding: 5 }
       }
     }
   }
@@ -117,10 +118,8 @@ export default class tabPage extends React.Component {
         <View style={{height: 40}}/>
         <SectionList
           renderItem={({item}) => <ListRow title={ item.name } titleStyle={{ fontSize: 14 }} onPress={() =>  this.onChooseGame(item) } /> }
-          renderSectionHeader={({section: { name, data }}) => {
-            if (data.length > 0) {
-                return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center', fontSize: 16 }} title={ name } bottomSeparator='none'/>
-              }
+          renderSectionHeader={({section: { name }}) => {
+            return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center', fontSize: 16 }} title={ name } bottomSeparator='none'/>
           }}
           sections={ this.state.sectionData }
           keyExtractor={(item, index) => item + index}
