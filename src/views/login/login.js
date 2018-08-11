@@ -1,6 +1,5 @@
 import React from 'react'
-import { KeyboardAvoidingView, Text, TextInput, StyleSheet, Keyboard } from 'react-native'
-import { StackActions, NavigationActions } from 'react-navigation'
+import { KeyboardAvoidingView, Text, TextInput, StyleSheet } from 'react-native'
 import Button from 'apsl-react-native-button'
 
 import LLTextInput from '../../components/LLTextInput'
@@ -18,14 +17,18 @@ export default class LoginPage extends React.Component<> {
       isLoading: false
     }
 
-    async componentWillMount() {
+    componentWillMount() {
       storageUtil.getUserPwd().then(ret => {
         this.setState({ account: ret.account, passwd: ret.passwd })
-      }).catch(() =>{})
+      }).catch(() =>{
+        console.log('没有保存密码')
+      })
 
-        if (await storageUtil.isLogin()) {
+      storageUtil.isLogin().then(ret => {
+        if (ret) {
           NavService.reset('MainPage')
         }
+      })
     }
 
   handleLogin() {
@@ -35,8 +38,10 @@ export default class LoginPage extends React.Component<> {
             storageUtil.save('user', resp.user)
             NavService.reset('MainPage')
         }).catch(err => {
-            this.setState({ isLoading: false })
-            console.log(err)
+            if (!err.isTimeout) {
+              this.setState({ isLoading: false })
+            }
+            console.log('login',err)
         })
     }
 

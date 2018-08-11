@@ -12,6 +12,7 @@ export default class SearchPicker extends Component {
   }
 
   state = {
+    originOptions: {},
     options: [],
     selected: [],
   }
@@ -38,8 +39,8 @@ export default class SearchPicker extends Component {
       let sorted = options.sort((x,y) => {
         return x.type > y.type
       })
-      this.setState({ options: sorted, selected: selected })
-      this.onConfirm()
+      this.setState({originOptions: ret, options: sorted, selected: selected })
+      this.onConfirm(true)
     })
   }
 
@@ -55,10 +56,10 @@ export default class SearchPicker extends Component {
     return selected
   }
 
-  onConfirm = () => {
+  onConfirm = (loadTop5) => {
     const { onSearch } = this.props
     let groupSelected = RestoreUtil.groupedOptionSelected(this.state.selected)
-    onSearch(groupSelected)
+    onSearch(groupSelected, loadTop5)
   }
 
   render() {

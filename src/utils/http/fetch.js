@@ -9,9 +9,12 @@ import routerUtil from '../router'
 axios.interceptors.request.use(async function (config) {
     // Do something before request is sent
     if (await storageUtil.isLogin()) {
-        let user = await storageUtil.getUser()
-        config.data.user_id = user.uid
-        config.data.sid = user.sid
+      storageUtil.getUser().then( ret => {
+        config.data.user_id = ret.uid
+        config.data.sid = ret.sid
+      }).catch(err => {
+        return Promise.reject(err)
+      })
     }
     return config
   }, function (error) {
@@ -21,17 +24,20 @@ axios.interceptors.request.use(async function (config) {
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
+    let reason = {}
     // Do something with response data
     if (response.data.state !== 0) {
         switch (response.data.state) {
             case 7:
                 routerUtil.logout()
+                reason.isTimeout = true
                 break
-            default: 
+            default:
                 break
         }
         Toast.fail(response.data.msg)
-        return Promise.reject(response.data)
+      // 判断是否是超时错误
+        return Promise.reject(reason)
     } else if (response.data.hasOwnProperty('response')) {
       if (response.data.response.state !== 0) {
         Toast.fail(response.data.response.msg)

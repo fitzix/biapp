@@ -2,12 +2,12 @@ import RestoreUtil from '../restore'
 
 
 const storageUtil = {
-    async isLogin() {
-        return await global.storage.load({ key: 'user'}).then( () => true).catch( () => false)
+    isLogin() {
+        return global.storage.load({ key: 'user'}).then( () => true).catch( () => false)
     },
 
-    async getUser() {
-        return await global.storage.load({ key: 'user'}).then(ret => ret)
+    getUser() {
+        return global.storage.load({ key: 'user'})
     },
 
     getUserPwd() {
@@ -29,6 +29,7 @@ const storageUtil = {
 
   // 获取游戏,分类 数据
     async getSideBarData() {
+
       let results = await global.storage.getBatchData([
         { key: 'gameTypes', syncInBackground: false },
         {
@@ -54,12 +55,16 @@ const storageUtil = {
 
     // 获取当前游戏平台渠道信息
     async getCurSearchOption() {
-      let curGame = await this.getCurGame().then(ret => ret)
-      return global.storage.load({
-        key: 'searchList',
-        id: curGame.id,
-        syncInBackground: false
-      })
+      try {
+        let curGame = await this.getCurGame()
+        return global.storage.load({
+          key: 'searchList',
+          id: curGame.id,
+          syncInBackground: false
+        })
+      } catch (e) {
+        return Promise.reject(e)
+      }
     }
 }
 
