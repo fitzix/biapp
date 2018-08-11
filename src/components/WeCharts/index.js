@@ -1,20 +1,43 @@
 /* eslint-disable */
-import React from 'react';
+import React from 'react'
 import {
   View,
   WebView,
   Platform,
-} from 'react-native';
+} from 'react-native'
 
-import html from './index.html';
+const os = Platform.OS
 
-const os = Platform.OS;
+let echartsSource = { 
+  html: 
+    `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style type="text/css">
+          body,html,#main {
+            height: 100%;
+          width: 100%;
+              margin: 0;
+              -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+      </style>
+      <title>ECharts</title>
+      <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
+    </head>
+    <body>
+        <div id="main"></div>
+    </body>
+    </html>
+    `
+}
 
 /**
  * props:
  * 
  * option(Object): Param of chart.setOption(), 
- *                 the setOption will auto execute when option is changed.
+ *                 the setOption will auto execute when option is cœhanged.
  * exScript(String): Any JavaScript that will execute when WebView is loaded.
  * oMessage(Function): The handler for the WebView's postMessage.
  *                     You will have to set postMessage in the exScript first.
@@ -42,7 +65,8 @@ export default class WebChart extends React.Component {
           style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
           scrollEnabled={false}
           scalesPageToFit={os !== 'ios'}
-          source={os === 'ios' ? html : { uri: 'file:///android_asset/web/WebChart/index.html' }}
+          originWhitelist={['*']}
+          source={os === 'ios' ? echartsSource : { uri: 'file:///android_asset/web/WebChart/index.html' }}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
             chart.setOption(${JSON.stringify(this.props.option)});
@@ -54,6 +78,6 @@ export default class WebChart extends React.Component {
           onMessage={(e) => { this.props.onMessage(JSON.parse(e.nativeEvent.data)); }}
         />
       </View>
-    );
+    )
   }
 }
