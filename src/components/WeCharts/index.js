@@ -18,10 +18,10 @@ let echartsSource = {
       <style type="text/css">
           body,html,#main {
             height: 100%;
-          width: 100%;
-              margin: 0;
-              -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            }
+            width: 100%;
+            margin: 0;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          }
       </style>
       <title>ECharts</title>
       <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
@@ -66,7 +66,8 @@ export default class WebChart extends React.Component {
           scrollEnabled={false}
           scalesPageToFit={os !== 'ios'}
           originWhitelist={['*']}
-          source={os === 'ios' ? echartsSource : { uri: 'file:///android_asset/web/WebChart/index.html' }}
+          // source={os === 'ios' ? echartsSource : { uri: 'file:///android_asset/web/WebChart/index.html' }}
+          source={echartsSource}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
             chart.setOption(${JSON.stringify(this.props.option)});
