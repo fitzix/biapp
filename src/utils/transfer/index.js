@@ -34,7 +34,6 @@ const transfer = {
           return `${value * 100}%`
         }
       case 'thousand':
-        console.log(23331231231231312)
         return (value, index) => {
           if (value >= 1000) {
             value = `${value/1000}k`

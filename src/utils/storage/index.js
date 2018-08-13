@@ -22,9 +22,9 @@ const storageUtil = {
     },
 
     clearAll() {
+      global.storage.clearMap()
       global.storage.remove({ key: 'user' })
       global.storage.remove({ key: 'gameTypes' })
-      global.storage.remove({ key: 'searchList' })
     },
 
   // 获取游戏,分类 数据

@@ -56,10 +56,10 @@ export default class SearchPicker extends Component {
     return selected
   }
 
-  onConfirm = (loadTop5) => {
+  onConfirm = (isFirst) => {
     const { onSearch } = this.props
     let groupSelected = RestoreUtil.groupedOptionSelected(this.state.selected)
-    onSearch(groupSelected, loadTop5)
+    onSearch(groupSelected, isFirst)
   }
 
   render() {
@@ -103,8 +103,7 @@ export default class SearchPicker extends Component {
 
 const styles = {
   container: {
-    paddingTop: 10,
     paddingHorizontal: 10,
-    paddingBottom: 10
+    paddingVertical: 5
   }
 }

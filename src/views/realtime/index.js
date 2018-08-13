@@ -29,7 +29,7 @@ export default class RealTimePage extends Component {
 
   render() {
     return (
-      <ScrollView style={{backgroundColor: '#f8f8f8'}}>
+      <ScrollView style={styles.container}>
         <SearchPicker ref='searchPickerRef' onSearch={this.onSearch} />
         <SegmentedBar justifyItem='scrollable' onChange={(index) => this.onSegmentedBarChange(index)}>
           <SegmentedBar.Item title='在线玩家'/>
@@ -69,7 +69,7 @@ export default class RealTimePage extends Component {
           }
         />
 
-        <SegmentedBar  style={styles.topDataSeg} justifyItem='scrollable' onChange={(index) => this.onTabSegChange(index)}>
+        <SegmentedBar style={styles.topDataSeg} justifyItem='scrollable' onChange={(index) => this.onTabSegChange(index)}>
           <SegmentedBar.Item title='渠道新增Top5' />
           <SegmentedBar.Item title='渠道付费Top5' />
           <SegmentedBar.Item title='区服在线Top5' />
@@ -158,6 +158,9 @@ export default class RealTimePage extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#f8f8f8'
+  },
   chart: {
     height: 300,
     marginTop: 10,
