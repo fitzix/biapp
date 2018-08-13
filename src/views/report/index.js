@@ -19,7 +19,7 @@ export default class ReportPage extends React.Component {
     dtEnd: MomentJS().add(-1, 'd').format('YYYY-MM-DD'),
     tableData: {
       head: ['日期', '新增账号', '新增角色', '次留', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'],
-      widthArr: [80, 60, 60, 50, 60, 50, 80, 90],
+      widthArr: [],
       data: []
     }
   }
@@ -29,7 +29,7 @@ export default class ReportPage extends React.Component {
   render() {
     const tableData = this.state.tableData
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.datePickerContainer}>
           <DatePicker
             date={this.state.dtBegin}
@@ -70,28 +70,14 @@ export default class ReportPage extends React.Component {
         </SegmentedBar>
 
         <ScrollView horizontal={true} style={styles.tableContainer}>
-          <View>
-            <Table borderStyle={{borderColor: '#C1C0B9'}}>
-              <Row data={tableData.head} widthArr={tableData.widthArr} style={styles.tableHeader} textStyle={styles.tableHeaderText} />
-            </Table>
-            <ScrollView>
-              <Table borderStyle={{borderColor: '#C1C0B9'}}>
-                {
-                  tableData.data.map((rowData, index) => (
-                    <Row
-                      key={index}
-                      data={rowData}
-                      widthArr={this.state.tableData.widthArr}
-                      style={[styles.tableRow, index%2 && {backgroundColor: '#E3E3E3'}]}
-                      textStyle={{ textAlign: 'center' }}
-                    />
-                  ))
-                }
-              </Table>
-            </ScrollView>
-          </View>
+          <Table borderStyle={{borderColor: '#C0C0C0'}}>
+            <Row data={tableData.head} widthArr={tableData.widthArr} style={styles.tableHeader} textStyle={styles.tableText}/>
+            <TableWrapper style={styles.tableWrapper}>
+              <Rows data={tableData.data} widthArr={tableData.widthArr} style={styles.tableRow} textStyle={styles.tableText}/>
+            </TableWrapper>
+          </Table>
         </ScrollView>
-      </View>
+      </ScrollView>
     )
   }
 
@@ -106,11 +92,15 @@ export default class ReportPage extends React.Component {
 
   loadTableData(selected, index) {
     ReportPage.hudKey = HUD.show()
-    let result = { data: [] }
+    let result = { data: [], widthArr: [85, 70, 70, 70, 70, 60, 90, 90] }
     let needSetState = true
+    if (index === 1) {
+      result.widthArr[0] = 150
+    }
+
     apiGetReport(selected, this.state.dtBegin, this.state.dtEnd, index + 1).then(ret => {
       ret.info.forEach(el => {
-        result.data.push([el.date, el.newCount, el.newCharacter, el.twoDay, el.payNum, el.payRate, el.payCharacterARPU, el.activeCharacterARPU ])
+        result.data.push([el.date, el.newCount.toFixed(2), el.newCharacter.toFixed(2), `${(el.twoDay * 100).toFixed(2)}%`, el.payNum.toFixed(2), `${(el.payRate * 100).toFixed(2)}%`, el.payCharacterARPU.toFixed(2), el.activeCharacterARPU.toFixed(2) ])
       })
     }).catch((err) => {
       if (err.isTimeout) {
@@ -122,6 +112,7 @@ export default class ReportPage extends React.Component {
           state.curSelected = selected
           state.tableSeg = index
           state.tableData.data = result.data
+          state.tableData.widthArr = result.widthArr
           return state
         })
       }
@@ -132,12 +123,12 @@ export default class ReportPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f8f8f8'
   },
   datePickerContainer: {
     marginTop: 5,
-    marginHorizontal: 10,
-    flexDirection: 'row'
+    marginHorizontal: 5,
+    flexDirection: 'row',
   },
   datePicker: {
     flex: 1,
@@ -149,13 +140,13 @@ const styles = StyleSheet.create({
     marginRight: 20
   },
   tableContainer: {
-    flex: 1,
-    marginTop: 5,
-    marginHorizontal: 10
+    marginTop: 10,
+    marginHorizontal: 5
   },
-  // tableHeader: {
-  //   height: 50
-  // },
-  tableHeaderText: { textAlign: 'center' },
-  tableRow: { height: 40 }
+  tableWrapper: { flexDirection: 'row' },
+  tableHeader: {
+    height: 25
+  },
+  tableText: { textAlign: 'center', color: '#525252' },
+  tableRow: { height: 28 }
 })

@@ -1,5 +1,5 @@
 import React,{ Component } from 'react'
-import { View } from 'react-native'
+import { ScrollView } from 'react-native'
 import  PropTypes from 'prop-types'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 
@@ -64,19 +64,21 @@ export default class SearchPicker extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
         <SectionedMultiSelect
           styles={{
             container: {
-              marginVertical: 60
+              marginVertical: 100,
             },
             selectToggle: {
               backgroundColor: '#E3E3E3',
               height: 40,
-              borderRadius: 5
+              borderRadius: 5,
+              marginHorizontal: 5,
+              marginVertical: 5
             },
             selectToggleText: {
-              marginLeft: 20
+              marginLeft: 20,
+              color: '#525252'
             }
           }}
           colors={{
@@ -96,14 +98,6 @@ export default class SearchPicker extends Component {
           onConfirm={this.onConfirm}
           selectedItems={this.parseSelected()}
         />
-      </View>
     )
-  }
-}
-
-const styles = {
-  container: {
-    paddingHorizontal: 10,
-    paddingVertical: 5
   }
 }
