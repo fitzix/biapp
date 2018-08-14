@@ -5,7 +5,7 @@ import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-componen
 
 
 import SearchPicker from '../../components/SearchPicker'
-import WebChart from '../../components/WeCharts'
+import WebChart from '../../components/WebCharts'
 import HUD from '../../components/Hud'
 import TransferUtil from '../../utils/transfer'
 import StorageUtil from '../../utils/storage'

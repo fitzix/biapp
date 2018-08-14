@@ -13,7 +13,7 @@ import UserPage from '../user'
 import StorageUtil from '../../utils/storage'
 import NavService from '../../services/navigator'
 
-const TabNavigator = createBottomTabNavigator(
+let TabNavigator = createBottomTabNavigator(
   {
     RealTimePage: {
       screen: RealTimePage,
@@ -124,7 +124,7 @@ export default class tabPage extends React.Component {
           sections={ this.state.sectionData }
           keyExtractor={(item, index) => item + index}
         />
-        <View style={{height: 60}}/>
+        <View style={{height: 40}}/>
       </View>
     )
   }

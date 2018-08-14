@@ -2,7 +2,6 @@
 const transfer = {
   // top5 数据翻译
   top5(to, from, type) {
-    console.log(from, type)
     let attr = 'channels'
     if (type > 2) {
       attr = 'regions'

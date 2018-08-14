@@ -18,13 +18,22 @@ export default class ReportPage extends React.Component {
     dtBegin: MomentJS().add(-7, 'd').format('YYYY-MM-DD'),
     dtEnd: MomentJS().add(-1, 'd').format('YYYY-MM-DD'),
     tableData: {
-      head: ['日期', '新增账号', '新增角色', '次留', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'],
+      head: ['日期', '新增账号', '新增角色', '次留', '登录账号', '登录角色', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'],
       widthArr: [],
       data: []
     }
   }
 
   static hudKey = null
+
+  componentDidMount() {
+    this._mounted = true
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
 
   render() {
     const tableData = this.state.tableData
@@ -92,22 +101,26 @@ export default class ReportPage extends React.Component {
 
   loadTableData(selected, index) {
     ReportPage.hudKey = HUD.show()
-    let result = { data: [], widthArr: [85, 70, 70, 70, 70, 60, 90, 90] }
-    let needSetState = true
+    let result = { data: [], widthArr: [85, 70, 70, 70, 70, 70, 70, 60, 90, 90] }
     if (index === 1) {
       result.widthArr[0] = 150
     }
-
     apiGetReport(selected, this.state.dtBegin, this.state.dtEnd, index + 1).then(ret => {
       ret.info.forEach(el => {
-        result.data.push([el.date, el.newCount.toFixed(2), el.newCharacter.toFixed(2), `${(el.twoDay * 100).toFixed(2)}%`, el.payNum.toFixed(2), `${(el.payRate * 100).toFixed(2)}%`, el.payCharacterARPU.toFixed(2), el.activeCharacterARPU.toFixed(2) ])
+        result.data.push([
+          el.date, +el.newCount.toFixed(2),
+          +el.newCharacter.toFixed(2),
+          `${+(el.twoDay * 100).toFixed(2)}%`,
+          +el.loginCount.toFixed(2),
+          +el.loginCharacter.toFixed(2),
+          +el.payNum.toFixed(2),
+          `${+(el.payRate * 100).toFixed(2)}%`,
+          +el.payCharacterARPU.toFixed(2),
+          +el.activeCharacterARPU.toFixed(2)
+        ])
       })
-    }).catch((err) => {
-      if (err.isTimeout) {
-        needSetState = false
-      }
     }).finally(() => {
-      if (needSetState) {
+      if (this._mounted) {
         this.setState(state => {
           state.curSelected = selected
           state.tableSeg = index

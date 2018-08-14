@@ -24,20 +24,18 @@ axios.interceptors.request.use(async function (config) {
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
-    let reason = {}
     // Do something with response data
     if (response.data.state !== 0) {
         switch (response.data.state) {
             case 7:
                 routerUtil.logout()
-                reason.isTimeout = true
                 break
             default:
                 break
         }
         Toast.fail(response.data.msg)
       // 判断是否是超时错误
-        return Promise.reject(reason)
+        return Promise.reject(response.data.msg)
     } else if (response.data.hasOwnProperty('response')) {
       if (response.data.response.state !== 0) {
         Toast.fail(response.data.response.msg)

@@ -15,7 +15,7 @@ export default {
     headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
 
     // 请求超时时长
-    timeout: 5000,
+    timeout: 8000,
 
     withCredentials: false, // default
 

@@ -67,7 +67,7 @@ export default class SearchPicker extends Component {
         <SectionedMultiSelect
           styles={{
             container: {
-              marginVertical: 100,
+              marginVertical: 50,
             },
             selectToggle: {
               backgroundColor: '#E3E3E3',

@@ -8,7 +8,7 @@ export default class HudProgress {
       text: '加载中',
       icon: <ActivityIndicator size='large' color='tomato' />,
       position: 'center',
-      duration: 1000000,
+      duration: 10000,
       overlayOpacity: 0.4,
       modal: true
     })

@@ -8,36 +8,11 @@ import {
 
 const os = Platform.OS
 
-let echartsSource = { 
-  html: 
-    `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <style type="text/css">
-          body,html,#main {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-          }
-      </style>
-      <title>ECharts</title>
-      <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
-    </head>
-    <body>
-        <div id="main"></div>
-    </body>
-    </html>
-    `
-}
-
 /**
  * props:
- * 
- * option(Object): Param of chart.setOption(), 
- *                 the setOption will auto execute when option is cœhanged.
+ *
+ * option(Object): Param of chart.setOption(),
+ *                 the setOption will auto execute when option is changed.
  * exScript(String): Any JavaScript that will execute when WebView is loaded.
  * oMessage(Function): The handler for the WebView's postMessage.
  *                     You will have to set postMessage in the exScript first.
@@ -58,6 +33,31 @@ export default class WebChart extends React.Component {
     this.webView.postMessage(optionJson);
   }
   render() {
+    const echartsSource = {
+      html:
+        `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style type="text/css">
+          body,html,#main {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          }
+      </style>
+      <title>ECharts</title>
+      <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
+    </head>
+    <body>
+        <div id="main"></div>
+    </body>
+    </html>
+    `
+    }
+
     return (
       <View style={this.props.style}>
         <WebView
@@ -66,6 +66,7 @@ export default class WebChart extends React.Component {
           scrollEnabled={false}
           scalesPageToFit={os !== 'ios'}
           originWhitelist={['*']}
+          domStorageEnabled={true}
           // source={os === 'ios' ? echartsSource : { uri: 'file:///android_asset/web/WebChart/index.html' }}
           source={echartsSource}
           injectedJavaScript={`
