@@ -67,7 +67,6 @@ export default class WebChart extends React.Component {
           scalesPageToFit={os !== 'ios'}
           originWhitelist={['*']}
           domStorageEnabled={true}
-          // source={os === 'ios' ? echartsSource : { uri: 'file:///android_asset/web/WebChart/index.html' }}
           source={echartsSource}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
