@@ -17,7 +17,6 @@ import {
 import { isEqual } from 'lodash'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import DatePicker from 'react-native-datepicker'
-import MomentJS from 'moment'
 
 import { RowItem } from './components'
 const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
@@ -184,6 +183,8 @@ class Index extends PureComponent {
 
     // 新加
     useDate: PropTypes.bool,
+    date: PropTypes.object,
+    onDateChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -233,8 +234,8 @@ class Index extends PureComponent {
       colors: StyleSheet.flatten([defaultColors, props.colors]),
 
       //新加
-      dtBegin: MomentJS().add(-7, 'd').format('YYYY-MM-DD'),
-      dtEnd: MomentJS().add(-1, 'd').format('YYYY-MM-DD')
+      dtBegin: this.props.date.dtBegin,
+      dtEnd: this.props.date.dtEnd
     }
   }
 
@@ -282,6 +283,20 @@ class Index extends PureComponent {
         )), 1)
     }, {})
     return toSplice
+  }
+
+  // 新增
+  _onDateChange = (date, begin) => {
+    const { onDateChange } = this.props
+    let ret = { dtBegin: this.state.dtBegin, dtEnd: this.state.dtEnd }
+    if (begin) {
+      this.setState({ dtBegin: date })
+      ret.dtBegin = date
+    } else {
+      this.setState({ dtEnd: date })
+      ret.dtEnd = date
+    }
+    onDateChange(ret)
   }
 
   _getSelectLabel = () => {
@@ -600,7 +615,7 @@ class Index extends PureComponent {
       const item = this._findItem(singleSelectedItem)
       fullItems.push(item)
     })
-    onSelectedItemObjectsChange(fullItems, { dtBegin: this.state.dtBegin, dtEnd: this.state.dtEnd })
+    onSelectedItemObjectsChange(fullItems)
   }
 
   _displaySelectedItems = () => {
@@ -756,8 +771,6 @@ class Index extends PureComponent {
       useDate
     } = this.props
 
-    console.log(useDate)
-
     const {
       searchTerm,
       selector,
@@ -835,7 +848,7 @@ class Index extends PureComponent {
                     format="YYYY-MM-DD"
                     showIcon={false}
                     maxDate={this.state.dtEnd}
-                    onDateChange={(date) => {this.setState({dtBegin: date})}}
+                    onDateChange={(date) => {this._onDateChange(date, true)}}
                     customStyles={{
                       dateInput: {
                         borderWidth: 0
@@ -851,7 +864,7 @@ class Index extends PureComponent {
                     format="YYYY-MM-DD"
                     showIcon={false}
                     maxDate={this.state.dtEnd}
-                    onDateChange={(date) => {this.setState({dtEnd: date})}}
+                    onDateChange={(date) => {this._onDateChange(date, false)}}
                     customStyles={{
                       dateInput: {
                         borderWidth: 0

@@ -15,8 +15,6 @@ export default class ReportPage extends React.Component {
   state = {
     curSelected: {},
     tableSeg: 0,
-    dtBegin: MomentJS().add(-7, 'd').format('YYYY-MM-DD'),
-    dtEnd: MomentJS().add(-1, 'd').format('YYYY-MM-DD'),
     tableData: {
       head: ['日期', '新增账号', '新增角色', '次留', '登录账号', '登录角色', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'],
       widthArr: [],
@@ -73,7 +71,8 @@ export default class ReportPage extends React.Component {
     if (index === 1) {
       result.widthArr[0] = 150
     }
-    apiGetReport(selected, this.state.dtBegin, this.state.dtEnd, index + 1).then(ret => {
+    console.log('selected',selected)
+    apiGetReport(selected, index + 1).then(ret => {
       ret.info.forEach(el => {
         result.data.push([
           el.date,
@@ -115,6 +114,6 @@ const styles = StyleSheet.create({
   tableHeader: {
     height: 25
   },
-  tableText: { textAlign: 'center', color: '#525252' },
+  tableText: { textAlign: 'center', color: '#5E5E5E' },
   tableRow: { height: 28 }
 })

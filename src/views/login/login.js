@@ -25,7 +25,6 @@ export default class LoginPage extends React.Component<> {
      return NavService.reset('MainPage')
     }
     storageUtil.getUserPwd().then(({account, passwd}) => {
-      console.log(account)
       if(this._mounted) {
         this.setState({account, passwd})
       }

@@ -48,10 +48,10 @@ export async function apiGetTop5(curPage, pageSize, type) {
 }
 
 // 数据报表
-export async function apiGetReport(options, dtBegin, dtEnd, type) {
+export async function apiGetReport(options, type) {
   try {
     let curGame = await StorageUtil.getCurGame()
-    return postEntryHandler(102004, { ...options, dtBegin, dtEnd, type, gameId: curGame.id, curPage: 1, pageSize: 90 })
+    return postEntryHandler(102004, { ...options, type, gameId: curGame.id, curPage: 1, pageSize: 90 })
   }catch (e) {
     return Promise.reject(e)
   }

@@ -1,7 +1,8 @@
 import React,{ Component } from 'react'
 import  PropTypes from 'prop-types'
-import SectionedMultiSelect from '../components/MultiSelect'
+import MomentJS from 'moment'
 
+import SectionedMultiSelect from '../components/MultiSelect'
 import StorageUtil from '../utils/storage'
 import RestoreUtil from '../utils/restore'
 
@@ -15,8 +16,10 @@ export default class SearchPicker extends Component {
     originOptions: {},
     options: [],
     selected: [],
-    dtBegin: null,
-    dtEnd: null
+    date: {
+      dtBegin: MomentJS().add(-7, 'd').format('YYYY-MM-DD'),
+      dtEnd: MomentJS().add(-1, 'd').format('YYYY-MM-DD')
+    }
   }
 
   componentWillMount() {
@@ -46,8 +49,12 @@ export default class SearchPicker extends Component {
     })
   }
 
-  onSelectedItemObjectsChange = (selectedItems, dtBegin, dtEnd) => {
-    this.setState({ selected: selectedItems, dtBegin, dtEnd })
+  onSelectedItemObjectsChange = (selectedItems) => {
+    this.setState({ selected: selectedItems })
+  }
+
+  onDateChange = (date) => {
+    this.setState({ date: date })
   }
 
   parseSelected() {
@@ -62,8 +69,8 @@ export default class SearchPicker extends Component {
     const { onSearch } = this.props
     let groupSelected = RestoreUtil.groupedOptionSelected(this.state.selected)
     if (this.props.useDate) {
-      groupSelected.dtBegin = this.state.dtBegin
-      groupSelected.dtEnd = this.state.dtEnd
+      groupSelected.dtBegin = this.state.date.dtBegin
+      groupSelected.dtEnd = this.state.date.dtEnd
     }
     onSearch(groupSelected, isFirst)
   }
@@ -91,6 +98,8 @@ export default class SearchPicker extends Component {
             cancel: 'tomato'
           }}
           useDate={this.props.useDate}
+          date={this.state.date}
+          onDateChange={this.onDateChange}
           items={this.state.options}
           uniqueKey='id'
           subKey='data'
