@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react'
-import {Alert, Platform} from 'react-native'
+import {Alert, Platform, Linking} from 'react-native'
 import { createStackNavigator } from 'react-navigation'
 import { Theme } from 'teaset'
 import {
