@@ -1,20 +1,22 @@
 import React,{ Component } from 'react'
-import { ScrollView } from 'react-native'
 import  PropTypes from 'prop-types'
-import SectionedMultiSelect from 'react-native-sectioned-multi-select'
+import SectionedMultiSelect from '../components/MultiSelect'
 
 import StorageUtil from '../utils/storage'
 import RestoreUtil from '../utils/restore'
 
 export default class SearchPicker extends Component {
   static propTypes = {
-    onSearch: PropTypes.func
+    onSearch: PropTypes.func,
+    useDate: PropTypes.bool
   }
 
   state = {
     originOptions: {},
     options: [],
     selected: [],
+    dtBegin: null,
+    dtEnd: null
   }
 
   componentWillMount() {
@@ -44,8 +46,8 @@ export default class SearchPicker extends Component {
     })
   }
 
-  onSelectedItemObjectsChange = (selectedItems) => {
-    this.setState({ selected: selectedItems })
+  onSelectedItemObjectsChange = (selectedItems, dtBegin, dtEnd) => {
+    this.setState({ selected: selectedItems, dtBegin, dtEnd })
   }
 
   parseSelected() {
@@ -59,6 +61,10 @@ export default class SearchPicker extends Component {
   onConfirm = (isFirst) => {
     const { onSearch } = this.props
     let groupSelected = RestoreUtil.groupedOptionSelected(this.state.selected)
+    if (this.props.useDate) {
+      groupSelected.dtBegin = this.state.dtBegin
+      groupSelected.dtEnd = this.state.dtEnd
+    }
     onSearch(groupSelected, isFirst)
   }
 
@@ -70,7 +76,7 @@ export default class SearchPicker extends Component {
               marginVertical: 50,
             },
             selectToggle: {
-              backgroundColor: '#E3E3E3',
+              backgroundColor: '#F8F8F8',
               height: 40,
               borderRadius: 5,
               marginHorizontal: 5,
@@ -84,6 +90,7 @@ export default class SearchPicker extends Component {
           colors={{
             cancel: 'tomato'
           }}
+          useDate={this.props.useDate}
           items={this.state.options}
           uniqueKey='id'
           subKey='data'

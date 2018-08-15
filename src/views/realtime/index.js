@@ -69,8 +69,8 @@ export default class RealTimePage extends Component {
                 }
               },
               series: [
-                {name:'每天', type: 'line'},
-                {name:'每周', type: 'line'},
+                {name:'今日', type: 'line'},
+                {name:'昨日', type: 'line'},
                 {name:'上周', type: 'line'}
               ]
             }
@@ -157,7 +157,7 @@ export default class RealTimePage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f8f8f8'
+    backgroundColor: 'white'
   },
   chart: {
     height: 300,

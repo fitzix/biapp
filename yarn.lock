@@ -4378,10 +4378,6 @@ react-native-safe-area-view@^0.8.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-sectioned-multi-select@^0.5.2:
-  version "0.5.2"
-  resolved "http://registry.npm.taobao.org/react-native-sectioned-multi-select/download/react-native-sectioned-multi-select-0.5.2.tgz#5a9a93a5785c89892314950f65568e0ba6f32d97"
-
 react-native-storage@^0.2.2:
   version "0.2.2"
   resolved "http://registry.npm.taobao.org/react-native-storage/download/react-native-storage-0.2.2.tgz#4449197f122b2da0650e3704e1f050260ed58d9f"

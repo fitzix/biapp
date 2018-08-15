@@ -50,6 +50,8 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		BEEEA14030B747FBB41695C1 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF7B8B6E5514380AA5D432A /* libRNVectorIcons.a */; };
 		C149E9B16DA34474AC50F72E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EEE392DC35DC4FE2816415AF /* Zocial.ttf */; };
+		C48FBF0A2123C789005C3730 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C48FBEE22123C789005C3730 /* libz.tbd */; };
+		C48FBF0C2123C79F005C3730 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C48FBF0B2123C79F005C3730 /* libbz2.1.0.tbd */; };
 		D19FFA211CA047B28A0ED81E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CAE410A4F564EC2B707553A /* Foundation.ttf */; };
 		E6FBC35155C34440A1C045A2 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD754FCD97064B93A8C49849 /* FontAwesome.ttf */; };
 		FD6FE60F573943479E9C939D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55B8922EFECE429B90659E9B /* SimpleLineIcons.ttf */; };
@@ -387,6 +389,8 @@
 		9B7407750554484D9E8C41C9 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B592D48574454B83B9ECBF09 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		C48FBEE22123C789005C3730 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		C48FBF0B2123C79F005C3730 /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
 		DC1ADEA60C794161AF6C48B6 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		EEE392DC35DC4FE2816415AF /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		EFF7B8B6E5514380AA5D432A /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -406,6 +410,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C48FBF0C2123C79F005C3730 /* libbz2.1.0.tbd in Frameworks */,
+				C48FBF0A2123C789005C3730 /* libz.tbd in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -569,6 +575,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C48FBF0B2123C79F005C3730 /* libbz2.1.0.tbd */,
+				C48FBEE22123C789005C3730 /* libz.tbd */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 			);
 			name = Frameworks;

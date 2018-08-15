@@ -40,6 +40,14 @@ const transfer = {
           return value
         }
     }
+  },
+
+  numFormatter(num, type) {
+    if (num === -1 || num === undefined) return '---'
+    if (type === 'percent') {
+      return `${+(num * 100).toFixed(2)}%`
+    }
+    return +num.toFixed(2)
   }
 }
 

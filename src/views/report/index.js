@@ -1,14 +1,14 @@
 import React from 'react'
-import {View, Text, ScrollView, StyleSheet} from 'react-native'
+import {View, ScrollView, StyleSheet} from 'react-native'
 import {SegmentedBar} from "teaset"
-import DatePicker from 'react-native-datepicker'
 import MomentJS from 'moment'
-import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
+import { Table, TableWrapper, Row, Rows } from 'react-native-table-component'
 
 
 import SearchPicker from '../../components/SearchPicker'
 import HUD from "../../components/Hud"
 import {apiGetReport} from "../../api"
+import TransferUtil from '../../utils/transfer'
 
 export default class ReportPage extends React.Component {
 
@@ -39,39 +39,7 @@ export default class ReportPage extends React.Component {
     const tableData = this.state.tableData
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.datePickerContainer}>
-          <DatePicker
-            date={this.state.dtBegin}
-            mode="date"
-            style={[styles.datePicker, styles.datePickerLeft]}
-            placeholder="选择开始时间"
-            format="YYYY-MM-DD"
-            showIcon={false}
-            maxDate={this.state.dtEnd}
-            onDateChange={(date) => {this.setState({dtBegin: date})}}
-            customStyles={{
-              dateInput: {
-                borderWidth: 0
-              }
-            }}
-          />
-          <DatePicker
-            date={this.state.dtEnd}
-            mode="date"
-            style={styles.datePicker}
-            placeholder="选择开始时间"
-            format="YYYY-MM-DD"
-            showIcon={false}
-            maxDate={this.state.dtEnd}
-            onDateChange={(date) => {this.setState({dtEnd: date})}}
-            customStyles={{
-              dateInput: {
-                borderWidth: 0
-              }
-            }}
-          />
-        </View>
-        <SearchPicker ref='searchPickerRef' onSearch={this.onSearch} />
+        <SearchPicker ref='searchPickerRef' useDate={true} onSearch={this.onSearch} />
         <SegmentedBar onChange={(index) => this.onTableSegChange(index)}>
           <SegmentedBar.Item title='日报'/>
           <SegmentedBar.Item title='周报'/>
@@ -108,15 +76,16 @@ export default class ReportPage extends React.Component {
     apiGetReport(selected, this.state.dtBegin, this.state.dtEnd, index + 1).then(ret => {
       ret.info.forEach(el => {
         result.data.push([
-          el.date, +el.newCount.toFixed(2),
-          +el.newCharacter.toFixed(2),
-          `${+(el.twoDay * 100).toFixed(2)}%`,
-          +el.loginCount.toFixed(2),
-          +el.loginCharacter.toFixed(2),
-          +el.payNum.toFixed(2),
-          `${+(el.payRate * 100).toFixed(2)}%`,
-          +el.payCharacterARPU.toFixed(2),
-          +el.activeCharacterARPU.toFixed(2)
+          el.date,
+          TransferUtil.numFormatter(el.newCount),
+          TransferUtil.numFormatter(el.newCharacter),
+          TransferUtil.numFormatter(el.twoDay, 'percent'),
+          TransferUtil.numFormatter(el.loginCount),
+          TransferUtil.numFormatter(el.loginCharacter),
+          TransferUtil.numFormatter(el.payNum),
+          TransferUtil.numFormatter(el.payRate, 'percent'),
+          TransferUtil.numFormatter(el.payCharacterARPU),
+          TransferUtil.numFormatter(el.activeCharacterARPU)
         ])
       })
     }).finally(() => {
@@ -136,21 +105,7 @@ export default class ReportPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f8f8f8'
-  },
-  datePickerContainer: {
-    marginTop: 5,
-    marginHorizontal: 5,
-    flexDirection: 'row',
-  },
-  datePicker: {
-    flex: 1,
-    backgroundColor: '#E3E3E3',
-    borderRadius: 5,
-    height: 40
-  },
-  datePickerLeft: {
-    marginRight: 20
+    backgroundColor: 'white'
   },
   tableContainer: {
     marginTop: 10,
