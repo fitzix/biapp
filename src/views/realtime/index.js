@@ -27,6 +27,14 @@ export default class RealTimePage extends Component {
 
   static hudKey = null
 
+  componentDidMount() {
+    this._mounted = true
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -46,8 +54,8 @@ export default class RealTimePage extends Component {
           style={styles.chart}
           option={
             {
-              legend: {
-                data: ['每天', '每周', '上周']
+              legend: { 
+                data: ['今日', '昨日', '上周']
               },
               tooltip: {},
               dataset: {
@@ -104,16 +112,11 @@ export default class RealTimePage extends Component {
 
   onSegmentedBarChange(index) {
     let chartData = null
-    let needSetState = true
     RealTimePage.hudKey = HUD.show()
     apiRealTime(this.state.curSelected, index + 1).then(ret => {
       chartData = ret.info
-    }).catch(err => {
-      if (err.isTimeout) {
-        needSetState = false
-      }
     }).finally( () => {
-      if (needSetState) {
+      if (this._mounted) {
         this.setState({ chartSeg: index, chartData: chartData })
       }
       HUD.hide(RealTimePage.hudKey)
@@ -129,7 +132,6 @@ export default class RealTimePage extends Component {
 
   async loadTop5(index) {
     let result = { title: [], data: [] }
-    let needSetState = true
     try {
       let ret = await apiGetTop5(1, 5, index + 1)
       let curSearchOption = await StorageUtil.getCurSearchOption()
@@ -140,12 +142,8 @@ export default class RealTimePage extends Component {
         result.data.push([el.id, el.count, el.day])
       })
 
-    } catch (err) {
-      if (err.isTimeout) {
-        needSetState = false
-      }
     } finally {
-      if (needSetState) {
+      if (this._mounted) {
         this.setState(state => {
           state.tableSeg = index
           state.tableData.title = result.title

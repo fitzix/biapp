@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "bundle-ios":"node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --bundle-output ./ios/bundle/index.jsbundle --assets-dest ./ios/bundle"
+    "bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --bundle-output ./ios/bundle/index.jsbundle --assets-dest ./ios/bundle"
   },
   "dependencies": {
     "apsl-react-native-button": "^3.1.1",
@@ -16,6 +16,7 @@
     "react-native-sectioned-multi-select": "^0.5.2",
     "react-native-storage": "^0.2.2",
     "react-native-table-component": "^1.1.8",
+    "react-native-update": "^5.1.2",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.10.0",
     "teaset": "^0.5.9"
