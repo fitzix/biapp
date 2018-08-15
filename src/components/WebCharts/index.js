@@ -51,6 +51,21 @@ export default class WebChart extends React.Component {
       </style>
       <title>ECharts</title>
       <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
+      <script>
+        function injectGetFormatter(type) {
+          if (type === 'percent') {
+            return function (value, index) {
+              return +(value * 100).toFixed(2) + '%'
+            }
+          }
+          return function (value, index) {
+              if (value > 1000) {
+                value = value/1000 + 'k'
+              }
+              return value
+          }
+        }
+      </script>
     </head>
     <body>
         <div id="main"></div>
@@ -71,9 +86,13 @@ export default class WebChart extends React.Component {
           source={echartsSource}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
-            chart.setOption(${JSON.stringify(this.props.option)});
+            var receiveData = ${JSON.stringify(this.props.option)}
+            receiveData.yAxis.axisLabel.formatter = injectGetFormatter(receiveData.yFormatter)
+            chart.setOption(receiveData);
             document.addEventListener('message', (e) => {
-              chart.setOption(JSON.parse(e.data), true);
+              var temp = JSON.parse(e.data)
+              temp.yAxis.axisLabel.formatter = injectGetFormatter(temp.yFormatter)
+              chart.setOption(temp, true);
             });
             ${this.props.exScript}
           `}

@@ -2,7 +2,7 @@ import React from 'react'
 import {KeyboardAvoidingView, Text, TextInput, StyleSheet} from 'react-native'
 import Button from 'apsl-react-native-button'
 
-import LLTextInput from '../../components/LLTextInput'
+import CNTextInput from '../../components/CNTextInput'
 
 import {apiLogin} from '../../api/index'
 import storageUtil from '../../utils/storage'
@@ -17,27 +17,25 @@ export default class LoginPage extends React.Component<> {
     isLoading: false
   }
 
-  componentWillMount() {
-    storageUtil.getUserPwd().then(ret => {
-      console.log(ret)
-      this.setState({account: ret.account, passwd: ret.passwd})
+  async componentWillMount() {
+    this._mounted = false
+
+    let isLogin = await storageUtil.isLogin()
+    if (isLogin) {
+     return NavService.reset('MainPage')
+    }
+    storageUtil.getUserPwd().then(({account, passwd}) => {
+      console.log(account)
+      if(this._mounted) {
+        this.setState({account, passwd})
+      }
     }).catch(() => {
       console.log('没有保存密码')
-    })
-
-    storageUtil.isLogin().then(ret => {
-      if (ret) {
-        NavService.reset('MainPage')
-      }
     })
   }
 
   componentDidMount() {
     this._mounted = true
-  }
-
-  componentWillUnmount() {
-    this._mounted = false
   }
 
 
@@ -60,7 +58,7 @@ export default class LoginPage extends React.Component<> {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Text style={styles.appTitle}>BiApp</Text>
-        <LLTextInput style={styles.loginInput} placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})}/>
+        <CNTextInput style={styles.loginInput} placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})}/>
         <TextInput style={styles.loginInput} clearButtonMode='while-editing' placeholder="请输入密码" value={this.state.passwd} onChangeText={(passwd) => this.setState({passwd})} secureTextEntry={true}/>
         <Button style={styles.buttonStyle} isLoading={this.state.isLoading} textStyle={styles.textStyle} onPress={() => this.handleLogin()}>登录</Button>
       </KeyboardAvoidingView>

@@ -826,12 +826,12 @@ class Index extends PureComponent {
               >
                 {/*是否使用日期组件*/}
                 { useDate &&
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5}}>
                   <DatePicker
                     date={this.state.dtBegin}
                     mode="date"
                     placeholder="选择开始时间"
-                    style={{marginRight: 20, backgroundColor: '#f8f8f8'}}
+                    style={{backgroundColor: '#f8f8f8'}}
                     format="YYYY-MM-DD"
                     showIcon={false}
                     maxDate={this.state.dtEnd}

@@ -15,6 +15,7 @@ export default class RealTimePage extends Component {
 
   state = {
     curSelected: {},
+    yFormatter: 'thousand',
     chartSeg: 0,
     tableSeg: 0,
     chartData: null,
@@ -54,6 +55,8 @@ export default class RealTimePage extends Component {
           style={styles.chart}
           option={
             {
+              //自定义属性 percent
+              yFormatter: this.state.yFormatter,
               legend: { 
                 data: ['今日', '昨日', '上周']
               },
@@ -117,7 +120,7 @@ export default class RealTimePage extends Component {
       chartData = ret.info
     }).finally( () => {
       if (this._mounted) {
-        this.setState({ chartSeg: index, chartData: chartData })
+        this.setState({ chartSeg: index, chartData: chartData, yFormatter: index === 5 ? 'percent' : '' })
       }
       HUD.hide(RealTimePage.hudKey)
     })
