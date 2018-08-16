@@ -18,8 +18,6 @@ export default class LoginPage extends React.Component<> {
   }
 
   async componentWillMount() {
-    this._mounted = false
-
     let isLogin = await storageUtil.isLogin()
     if (isLogin) {
      return NavService.reset('MainPage')
@@ -35,6 +33,10 @@ export default class LoginPage extends React.Component<> {
 
   componentDidMount() {
     this._mounted = true
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
   }
 
 
