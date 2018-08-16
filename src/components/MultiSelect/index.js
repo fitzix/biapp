@@ -844,7 +844,7 @@ class Index extends PureComponent {
                     date={this.state.dtBegin}
                     mode="date"
                     placeholder="选择开始时间"
-                    style={{backgroundColor: '#f8f8f8'}}
+                    style={{backgroundColor: '#f8f8f8', borderRadius: 5}}
                     format="YYYY-MM-DD"
                     showIcon={false}
                     maxDate={this.state.dtEnd}
@@ -860,7 +860,7 @@ class Index extends PureComponent {
                     date={this.state.dtEnd}
                     mode="date"
                     placeholder="选择开始时间"
-                    style={{ backgroundColor: '#f8f8f8'}}
+                    style={{ backgroundColor: '#f8f8f8', borderRadius: 5}}
                     format="YYYY-MM-DD"
                     showIcon={false}
                     maxDate={this.state.dtEnd}
