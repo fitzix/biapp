@@ -92,9 +92,9 @@ export default class App extends Component<Props> {
           {text: '确定', onPress: ()=>{info.downloadUrl && Linking.openURL(info.downloadUrl)}},
         ])
       } else if (info.update) {
-        Alert.alert('提示', '检查到新的版本'+info.name+',是否下载?\n'+ info.description, [
-          {text: '是', onPress: ()=>{this.doUpdate(info)}},
-          {text: '否',},
+        Alert.alert('提示', `检查到新的版本${info.name},是否下载?\n${info.description}`, [
+          {text: '开始下载', onPress: ()=>{this.doUpdate(info)}},
+          {text: '残忍拒绝'}
         ])
       }
     }).catch(err => {

@@ -59,7 +59,7 @@ export default class WebChart extends React.Component {
             }
           }
           return function (value, index) {
-              if (value > 1000) {
+              if (value >= 1000) {
                 value = value/1000 + 'k'
               }
               return value
@@ -86,12 +86,12 @@ export default class WebChart extends React.Component {
           source={echartsSource}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
-            var receiveData = ${JSON.stringify(this.props.option)}
-            receiveData.yAxis.axisLabel.formatter = injectGetFormatter(receiveData.yFormatter)
+            var receiveData = ${JSON.stringify(this.props.option)};
+            receiveData.yAxis.axisLabel.formatter = injectGetFormatter(receiveData.yFormatter);
             chart.setOption(receiveData);
             document.addEventListener('message', (e) => {
-              var temp = JSON.parse(e.data)
-              temp.yAxis.axisLabel.formatter = injectGetFormatter(temp.yFormatter)
+              var temp = JSON.parse(e.data);
+              temp.yAxis.axisLabel.formatter = injectGetFormatter(temp.yFormatter);
               chart.setOption(temp, true);
             });
             ${this.props.exScript}

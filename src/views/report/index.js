@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   tableContainer: {
     marginTop: 10,
-    marginHorizontal: 5
+    marginHorizontal: 2
   },
   tableWrapper: { flexDirection: 'row' },
   tableHeader: {
