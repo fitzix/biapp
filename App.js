@@ -77,7 +77,6 @@ export default class App extends Component<Props> {
     downloadUpdate(info).then(hash => {
       Alert.alert('提示', '下载完毕,是否重启应用?', [
         {text: '是', onPress: ()=>{switchVersion(hash)}},
-        {text: '否',},
         {text: '下次启动时', onPress: ()=>{switchVersionLater(hash)}},
       ]);
     }).catch(err => {
@@ -97,8 +96,6 @@ export default class App extends Component<Props> {
           {text: '残忍拒绝'}
         ])
       }
-    }).catch(err => {
-      Alert.alert('提示', '更新失败.')
     })
   }
 
