@@ -23,6 +23,12 @@ export default class WebChart extends React.Component {
     exScript: '',
     onMessage: () => {},
   }
+
+
+  componentDidMount(){
+    this._webChartHash = Math.random()
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const optionJson = JSON.stringify(this.props.option);
     if (optionJson !== JSON.stringify(prevProps.option)) {
@@ -82,7 +88,7 @@ export default class WebChart extends React.Component {
           scrollEnabled={false}
           scalesPageToFit={os !== 'ios'}
           originWhitelist={['*']}
-          source={os === 'ios' ? echartsSource : {uri: 'http://174.137.53.168:8001'}}
+          source={os === 'ios' ? echartsSource : {uri: `http://adconfig.leuok.cn/biapp.html?key=${this._webChartHash}`}}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
             var receiveData = ${JSON.stringify(this.props.option)};
