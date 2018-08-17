@@ -33,6 +33,7 @@ export default class WebChart extends React.Component {
     this.webView.postMessage(optionJson);
   }
   render() {
+    // 本地html安卓 切换页面会不显示  only for iOS
     const echartsSource = {
       html:
         `
@@ -75,15 +76,13 @@ export default class WebChart extends React.Component {
     }
 
     return (
-      <View style={this.props.style}>
+      <View style={[this.props.style, {flex: 1}]}>
         <WebView
           ref={(elem) => { this.webView = elem; }}
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
           scrollEnabled={false}
           scalesPageToFit={os !== 'ios'}
           originWhitelist={['*']}
-          domStorageEnabled={true}
-          source={echartsSource}
+          source={os === 'ios' ? echartsSource : {uri: 'http://174.137.53.168:8001'}}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
             var receiveData = ${JSON.stringify(this.props.option)};
