@@ -58,7 +58,7 @@ export default class LoginPage extends React.Component<> {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Text style={styles.appTitle}>BiApp</Text>
+        <Text style={styles.appTitle}>BIAPP</Text>
         <CNTextInput style={styles.loginInput} placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})}/>
         <TextInput style={styles.loginInput} clearButtonMode='while-editing' placeholder="请输入密码" value={this.state.passwd} onChangeText={(passwd) => this.setState({passwd})} secureTextEntry={true}/>
         <Button style={styles.buttonStyle} isLoading={this.state.isLoading} textStyle={styles.textStyle} onPress={() => this.handleLogin()}>登录</Button>

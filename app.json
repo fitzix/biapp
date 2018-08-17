@@ -1,6 +1,6 @@
 {
   "name": "biapp",
-  "displayName": "biapp",
+  "displayName": "BIAPP",
   "apiGatewayURL": "http://bi.leuok.com",
   "desPubKey": ["xmob", "X", "MOB"]
 }
