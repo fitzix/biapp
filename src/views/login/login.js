@@ -8,7 +8,7 @@ import {apiLogin} from '../../api/index'
 import storageUtil from '../../utils/storage'
 import NavService from '../../services/navigator'
 
-export default class LoginPage extends React.Component<> {
+export default class LoginPage extends React.Component {
   static navigationOptions = {header: null}
 
   state = {
