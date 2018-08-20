@@ -40,7 +40,7 @@ export default class RealTimePage extends Component {
     return (
       <ScrollView style={styles.container}>
         <SearchPicker ref='searchPickerRef' onSearch={this.onSearch} />
-        <SegmentedBar justifyItem='scrollable' onChange={(index) => this.onSegmentedBarChange(index)}>
+        <SegmentedBar style={{borderBottomWidth: .5, borderBottomColor: 'rgba(0,0,0,.1)'}} justifyItem='scrollable' onChange={(index) => this.onSegmentedBarChange(index)}>
           <SegmentedBar.Item title='在线玩家'/>
           <SegmentedBar.Item title='新增账号'/>
           <SegmentedBar.Item title='新增角色'/>
@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
   chart: {
     height: 300,
     marginTop: 10,
-    marginLeft: 10
   },
   topDataSeg: {
     marginTop: -20

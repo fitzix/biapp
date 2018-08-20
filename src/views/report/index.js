@@ -38,7 +38,7 @@ export default class ReportPage extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <SearchPicker ref='searchPickerRef' useDate={true} onSearch={this.onSearch} />
-        <SegmentedBar onChange={(index) => this.onTableSegChange(index)}>
+        <SegmentedBar style={{borderBottomWidth: .5, borderBottomColor: 'rgba(0,0,0,.1)'}} onChange={(index) => this.onTableSegChange(index)}>
           <SegmentedBar.Item title='日报'/>
           <SegmentedBar.Item title='周报'/>
           <SegmentedBar.Item title='月报'/>
