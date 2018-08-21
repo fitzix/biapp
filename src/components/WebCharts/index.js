@@ -54,6 +54,9 @@ export default class WebChart extends React.Component {
             margin: 0;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
           }
+          #main {
+            margin-left: 5px;
+          }
       </style>
       <title>ECharts</title>
       <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>

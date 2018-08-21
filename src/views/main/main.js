@@ -80,17 +80,21 @@ export default class tabPage extends React.Component {
     }
   }
 
-
-  componentWillMount() {
+  componentDidMount() {
+    this._mounted = true
+    this.props.navigation.setParams({openSideBar: this._showSideBar})
     StorageUtil.getSideBarData().then(({data, game}) => {
       this.props.navigation.setParams({navBarTitle: game.name})
-      this.setState({sectionData: data})
+      if (this._mounted) {
+        this.setState({sectionData: data})
+      }
     }).catch(() => {})
   }
 
-  componentDidMount() {
-    this.props.navigation.setParams({openSideBar: this._showSideBar})
+  componentWillUnmount() {
+    this._mounted = false
   }
+
 
   render() {
     return (
