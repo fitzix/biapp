@@ -66,7 +66,7 @@ export default class ReportPage extends React.Component {
 
   loadTableData(selected, index) {
     ReportPage.hudKey = HUD.show()
-    let result = {head: ['日期', '新增账号', '新增角色', '次留', '登录账号', '登录角色', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'], data: [], widthArr: [85, 70, 70, 70, 70, 70, 70, 60, 90, 90]}
+    let result = {head: ['日期', '新增账号', '新增角色', '次留', '登录账号', '登录角色', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'], data: [], widthArr: [85, 70, 70, 70, 70, 70, 70, 60, 100, 100]}
     if (index === 1) {
       result.widthArr[0] = 150
     }
