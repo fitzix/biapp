@@ -56,3 +56,17 @@ export async function apiGetReport(options, type) {
     return Promise.reject(e)
   }
 }
+
+// 分项数据
+export async function apiGetShared(options, sharedIn) {
+  let menuID = 60121011
+  if (sharedIn) {
+    menuID = 60122011
+  }
+  try {
+    let curGame = await StorageUtil.getCurGame()
+    return postEntryHandler(menuID, { ...options, gameId: curGame.id, curPage: 1, pageSize: 90 })
+  }catch (e) {
+    return Promise.reject(e)
+  }
+}

@@ -40,7 +40,7 @@ export default class RealTimePage extends Component {
     return (
       <ScrollView style={styles.container}>
         <SearchPicker ref='searchPickerRef' onSearch={this.onSearch} />
-        <SegmentedBar style={{borderBottomWidth: .5, borderBottomColor: 'rgba(0,0,0,.1)'}} justifyItem='scrollable' onChange={(index) => this.onSegmentedBarChange(index)}>
+        <SegmentedBar justifyItem='scrollable' onChange={(index) => this.onSegmentedBarChange(index)}>
           <SegmentedBar.Item title='在线玩家'/>
           <SegmentedBar.Item title='新增账号'/>
           <SegmentedBar.Item title='新增角色'/>
@@ -80,7 +80,7 @@ export default class RealTimePage extends Component {
           }
         />
 
-        <SegmentedBar style={styles.topDataSeg} justifyItem='scrollable' onChange={(index) => this.onTabSegChange(index)}>
+        <SegmentedBar justifyItem='scrollable' onChange={(index) => this.onTabSegChange(index)}>
           <SegmentedBar.Item title='渠道新增Top5' />
           <SegmentedBar.Item title='渠道付费Top5' />
           <SegmentedBar.Item title='区服在线Top5' />
@@ -160,17 +160,16 @@ export default class RealTimePage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white'
+    // backgroundColor: 'white'
   },
   chart: {
     height: 300,
-    marginTop: 10,
-  },
-  topDataSeg: {
-    marginTop: -20
+    marginVertical: 2,
+    marginHorizontal: 2
   },
   topTableContainer: {
-    marginTop: 10
+    backgroundColor: 'white',
+    marginTop: 2
   },
   topTableHead: {
     height: 20,

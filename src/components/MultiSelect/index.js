@@ -781,7 +781,7 @@ class Index extends PureComponent {
     const confirmFont = confirmFontFamily.fontFamily && confirmFontFamily
     const searchTextFont = searchTextFontFamily.fontFamily && searchTextFontFamily
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Modal
           supportedOrientations={modalSupportedOrientations}
           animationType={modalAnimationType}
@@ -975,7 +975,7 @@ class Index extends PureComponent {
                 numberOfLines={selectLabelNumberOfLines}
                 style={[{
                   flex: 1,
-                  fontSize: 16,
+                  fontSize: 14,
                   color: colors.selectToggleTextColor,
                 }, styles.selectToggleText]}
               >

@@ -15,10 +15,18 @@ const restoreDataUtil = {
 
   getOptionName(type) {
     switch (type) {
-      case 'platforms': return { name: '平台', type: 1 }
-      case 'bigChannels': return { name: '大渠道', type: 2 }
-      case 'channels': return { name: '渠道', type: 3 }
-      case 'regions': return { name: '区服', type: 4 }
+      case 'platforms':
+      case 2:
+        return {key: 'platforms', name: '平台', type: 2 }
+      case 'bigChannels':
+      case 5:
+        return { key: 'bigChannels', name: '大渠道', type: 5 }
+      case 'channels':
+      case 4:
+        return {key: 'channels', name: '渠道', type: 4 }
+      case 'regions':
+      case 3:
+        return { key: 'regions', name: '区服', type: 3 }
     }
   },
 
@@ -27,16 +35,16 @@ const restoreDataUtil = {
     let selected = { platforms: [], bigChannels: [], channels: [], regions: [] }
     data.forEach( el => {
       switch (el.type) {
-        case 1:
+        case 2:
           selected.platforms.push(el.id)
           break
-        case 2:
+        case 5:
           selected.bigChannels.push(el.id)
           break
-        case 3:
+        case 4:
           selected.channels.push(el.id)
           break
-        case 4:
+        case 3:
           selected.regions.push(el.id)
           break
       }

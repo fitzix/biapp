@@ -1,8 +1,7 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet} from 'react-native'
+import {ScrollView, StyleSheet} from 'react-native'
 import {SegmentedBar} from "teaset"
-import MomentJS from 'moment'
-import { Table, TableWrapper, Row, Rows } from 'react-native-table-component'
+import {Table, TableWrapper, Row, Rows} from 'react-native-table-component'
 
 
 import SearchPicker from '../../components/SearchPicker'
@@ -16,7 +15,7 @@ export default class ReportPage extends React.Component {
     curSelected: {},
     tableSeg: 0,
     tableData: {
-      head: ['日期', '新增账号', '新增角色', '次留', '登录账号', '登录角色', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'],
+      head: [],
       widthArr: [],
       data: []
     }
@@ -37,8 +36,8 @@ export default class ReportPage extends React.Component {
     const tableData = this.state.tableData
     return (
       <ScrollView style={styles.container}>
-        <SearchPicker ref='searchPickerRef' useDate={true} onSearch={this.onSearch} />
-        <SegmentedBar style={{borderBottomWidth: .5, borderBottomColor: 'rgba(0,0,0,.1)'}} onChange={(index) => this.onTableSegChange(index)}>
+        <SearchPicker useDate={true} onSearch={this.onSearch}/>
+        <SegmentedBar onChange={(index) => this.onTableSegChange(index)}>
           <SegmentedBar.Item title='日报'/>
           <SegmentedBar.Item title='周报'/>
           <SegmentedBar.Item title='月报'/>
@@ -67,11 +66,11 @@ export default class ReportPage extends React.Component {
 
   loadTableData(selected, index) {
     ReportPage.hudKey = HUD.show()
-    let result = { data: [], widthArr: [85, 70, 70, 70, 70, 70, 70, 60, 90, 90] }
+    let result = {head: ['日期', '新增账号', '新增角色', '次留', '登录账号', '登录角色', '付费金额', '付费率', '付费角色ARPU', '活跃角色ARPU'], data: [], widthArr: [85, 70, 70, 70, 70, 70, 70, 60, 90, 90]}
     if (index === 1) {
       result.widthArr[0] = 150
     }
-    console.log('selected',selected)
+    console.log('selected', selected)
     apiGetReport(selected, index + 1).then(ret => {
       ret.info.forEach(el => {
         result.data.push([
@@ -92,8 +91,7 @@ export default class ReportPage extends React.Component {
         this.setState(state => {
           state.curSelected = selected
           state.tableSeg = index
-          state.tableData.data = result.data
-          state.tableData.widthArr = result.widthArr
+          state.tableData = result
           return state
         })
       }
@@ -103,17 +101,16 @@ export default class ReportPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: {},
+  tableContainer: {
+    marginTop: 2,
+    marginHorizontal: 2,
     backgroundColor: 'white'
   },
-  tableContainer: {
-    marginTop: 10,
-    marginHorizontal: 2
-  },
-  tableWrapper: { flexDirection: 'row' },
+  tableWrapper: {flexDirection: 'row'},
   tableHeader: {
     height: 25
   },
-  tableText: { textAlign: 'center', color: '#5E5E5E' },
-  tableRow: { height: 28 }
+  tableText: {textAlign: 'center', color: '#5E5E5E'},
+  tableRow: {height: 28}
 })

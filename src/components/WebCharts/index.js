@@ -52,7 +52,6 @@ export default class WebChart extends React.Component {
             height: 100%;
             width: 100%;
             margin: 0;
-            background: white;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
           }
       </style>

@@ -48,6 +48,26 @@ const transfer = {
       return `${+(num * 100).toFixed(2)}%`
     }
     return +num.toFixed(2)
+  },
+
+//  平台 渠道..数据翻译
+  /**
+   *
+   * @param to 要翻译的数据
+   * @param from 基准源数据
+   * @param type 平台/渠道/....
+   * @param key 字段名
+   */
+  searchOption(to, from, type, key) {
+    if(data.hasOwnProperty(type) && from.hasOwnProperty(type)) {
+      let options = this.options2map(from).get(type)
+      data[type].forEach(el => {
+        let temp = options.get(el[key])
+        if (temp) {
+          el[key] = temp
+        }
+      })
+    }
   }
 }
 
