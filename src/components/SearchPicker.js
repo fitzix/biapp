@@ -3,6 +3,7 @@ import {View} from 'react-native'
 import {Select} from 'teaset'
 import PropTypes from 'prop-types'
 import MomentJS from 'moment'
+import Ionicons from 'react-native-vector-icons/MaterialIcons'
 
 import SectionedMultiSelect from '../components/MultiSelect'
 import StorageUtil from '../utils/storage'
@@ -132,8 +133,9 @@ export default class SearchPicker extends Component {
           getItemValue={(item, index) => item.id}
           getItemText={(item, index) => item.name}
           placeholder='选择查询维度'
-          valueStyle={{color: 'tomato', textAlign: 'center'}}
+          valueStyle={{color: 'tomato', textAlign: 'center', fontSize: 14}}
           pickerTitle='选择查询维度'
+          icon={ <Ionicons size={24} name="keyboard-arrow-down" style={{color: '#333'}} />}
           onSelected={(item, index) => this.onGroupChange(item)}
         />
         }
