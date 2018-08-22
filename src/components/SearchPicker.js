@@ -80,7 +80,8 @@ export default class SearchPicker extends Component {
   }
 
   onGroupChange(item){
-    this.setState({options: [this.parsedOptions.get(item.id)], groupType: item.id, selected: option[0].data})
+    let option = [this.parsedOptions.get(item.id)]
+    this.setState({options: option, groupType: item.id, selected: option[0].data})
   }
 
   parseSelected() {
@@ -124,7 +125,7 @@ export default class SearchPicker extends Component {
           placeholder='选择查询维度'
           valueStyle={{color: 'tomato', textAlign: 'center', fontSize: 14}}
           pickerTitle='选择查询维度'
-          icon={ <Ionicons size={24} name="keyboard-arrow-down" style={{color: '#333'}} />}
+          icon={ <Ionicons size={24} name="keyboard-arrow-down" style={{color: '#CDCDCD'}} />}
           onSelected={(item, index) => this.onGroupChange(item)}
         />
         }
@@ -143,7 +144,8 @@ export default class SearchPicker extends Component {
             }
           }}
           colors={{
-            cancel: 'tomato'
+            cancel: 'tomato',
+            selectToggleTextColor: '#CDCDCD'
           }}
           useDate={this.props.useDate}
           date={this.state.date}
