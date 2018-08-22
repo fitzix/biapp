@@ -44,7 +44,7 @@ export default class ReportPage extends React.Component {
         </SegmentedBar>
 
         <ScrollView horizontal={true} style={styles.tableContainer}>
-          <Table borderStyle={{borderColor: '#C0C0C0'}}>
+          <Table borderStyle={{borderColor: '#DADADA', borderWidth: .5}}>
             <Row data={tableData.head} widthArr={tableData.widthArr} style={styles.tableHeader} textStyle={styles.tableText}/>
             <TableWrapper style={styles.tableWrapper}>
               <Rows data={tableData.data} widthArr={tableData.widthArr} style={styles.tableRow} textStyle={styles.tableText}/>
@@ -103,7 +103,6 @@ export default class ReportPage extends React.Component {
 const styles = StyleSheet.create({
   container: {},
   tableContainer: {
-    marginTop: 2,
     marginHorizontal: 1,
     backgroundColor: 'white'
   },

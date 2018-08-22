@@ -27,13 +27,16 @@ const storageUtil = {
       global.storage.remove({ key: 'gameTypes' })
     },
 
+    clearCache() {
+
+    },
+
   // 获取游戏,分类 数据
     async getSideBarData() {
-
       let results = await global.storage.getBatchData([
         { key: 'gameTypes', syncInBackground: false },
         {
-          key: 'searchList',
+          key: 'optionList',
           id: -1,
           syncInBackground: false
         }
@@ -58,7 +61,7 @@ const storageUtil = {
       try {
         let curGame = await this.getCurGame()
         return global.storage.load({
-          key: 'searchList',
+          key: 'optionList',
           id: curGame.id,
           syncInBackground: false
         })

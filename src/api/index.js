@@ -3,10 +3,10 @@ import MomentJS from 'moment'
 import {post, postEntryHandler} from '../utils/http/fetch'
 import encryptUtil from '../utils/encrypt'
 import StorageUtil from '../utils/storage'
-import {desPubKey} from '../../app.json'
+import ENV from '../config'
 
 export function apiLogin(uname, pwd) {
-  return post('UserLoginHandler', {username: uname, password: encryptUtil.strEnc(pwd, desPubKey[0], desPubKey[1], desPubKey[2])})
+  return post('UserLoginHandler', {username: uname, password: encryptUtil.strEnc(pwd, ENV.desPubKey[0], ENV.desPubKey[1], ENV.desPubKey[2])})
 }
 
 // 游戏分类
@@ -58,11 +58,8 @@ export async function apiGetReport(options, type) {
 }
 
 // 分项数据
-export async function apiGetShared(options, sharedIn) {
-  let menuID = 60121011
-  if (sharedIn) {
-    menuID = 60122011
-  }
+export async function apiGetShared(options, seg) {
+  let menuID = [60121011, 60122011, 60111011][seg]
   try {
     let curGame = await StorageUtil.getCurGame()
     return postEntryHandler(menuID, { ...options, gameId: curGame.id, curPage: 1, pageSize: 90 })

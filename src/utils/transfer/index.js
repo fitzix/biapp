@@ -57,16 +57,26 @@ const transfer = {
    * @param from 基准源数据
    * @param type 平台/渠道/....
    * @param key 字段名
+   * @param point 分享页面功能点翻译
    */
-  searchOption(to, from, type, key) {
-    if(data.hasOwnProperty(type) && from.hasOwnProperty(type)) {
+  searchOption(to, from, type, key, point) {
+    if (to.length > 0 && from.hasOwnProperty(type)) {
       let options = this.options2map(from).get(type)
-      data[type].forEach(el => {
+      to.forEach(el => {
         let temp = options.get(el[key])
         if (temp) {
           el[key] = temp
         }
+        if (point) {
+          this.sharedPoint(el)
+        }
       })
+    }
+  },
+
+  sharedPoint(item) {
+    if (item.point === 9999999) {
+      item.point = '总计'
     }
   }
 }

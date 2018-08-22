@@ -20,8 +20,7 @@ export default class SearchPicker extends Component {
     { id: 2, name: '平台维度' },
     { id: 5, name: '大渠道' },
     { id: 4, name: '渠道' },
-    { id: 3, name: '区服' },
-    // { id: 6, name: '渠道-区服' },
+    { id: 3, name: '区服' }
   ]
 
   state = {
@@ -81,17 +80,7 @@ export default class SearchPicker extends Component {
   }
 
   onGroupChange(item){
-    let option = []
-    // let select = []
-    // if (item === 6) {
-    //   option = [this.parsedOptions.get(4), this.parsedOptions.get(3)]
-    //   select = option[0].data.connect(option[1].data)
-    // } else {
-    //   option.push(this.parsedOptions.get(item.id))
-    //   select = option[0].data
-    // }
-    option.push(this.parsedOptions.get(item.id))
-    this.setState({options: option, groupType: item.id, selected: option[0].data})
+    this.setState({options: [this.parsedOptions.get(item.id)], groupType: item.id, selected: option[0].data})
   }
 
   parseSelected() {
@@ -124,10 +113,10 @@ export default class SearchPicker extends Component {
 
   render() {
     return (
-      <View style={{flexDirection: 'row', marginVertical: 2, marginHorizontal: 2}}>
+      <View style={{flexDirection: 'row', marginVertical: 1, marginHorizontal: 2}}>
         { this.props.useGroup &&
         <Select
-          style={{flex: 0.5, height: 40, borderWidth: 0, marginRight: 2}}
+          style={{flex: 0.5, height: 40, borderWidth: 0, marginRight: 2, borderRadius: 0}}
           value={this.state.groupType}
           items={this.groupItems}
           getItemValue={(item, index) => item.id}

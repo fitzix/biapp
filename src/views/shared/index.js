@@ -1,5 +1,5 @@
 import React from "react"
-import {View, Text, ScrollView, StyleSheet} from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import SearchPicker from '../../components/SearchPicker'
 import HUD from "../../components/Hud"
@@ -7,7 +7,7 @@ import {apiGetShared} from "../../api"
 import TransferUtil from "../../utils/transfer"
 import RestoreUtil from '../../utils/restore'
 import {SegmentedBar} from "teaset";
-import {Row, Rows, Table, TableWrapper} from "react-native-table-component";
+import {Row, Rows, Table} from "react-native-table-component"
 
 
 export default class SharedPage extends React.Component {
@@ -22,10 +22,11 @@ export default class SharedPage extends React.Component {
     }
   }
 
-  sharedHeaderTitle = {
-    out: { data: [], head: ['日期', '类型', '分享点', '分享人数', 'DAU占比', '分享次数'], widthArr: [85, 70, 70, 70, 70, 70] },
-    in: { data: [], head: ['日期', '类型', '分享点', '引流人数', 'DAU占比', '分享次数', '新进人数', '新进效率', '有效率'], widthArr: [85, 70, 70, 70, 70, 70, 70, 70, 70] }
-  }
+  sharedHeaderTitle = [
+    { head: ['日期', '来源', '分享点', '分享人数', 'DAU占比', '分享次数'], widthArr: [85, 70, 70, 70, 70, 70] },
+    { head: ['日期', '来源', '分享点', '引流人数', 'DAU占比', '分享次数', '新进人数', '新进效率', '有效率'], widthArr: [85, 70, 70, 70, 70, 70, 70, 70, 70] },
+    { head: ['日期', '来源', '视频触发点', '主动触发人数', '主动触发次数', '主动关闭人数', '主动关闭次数', '播放人数', '播放次数', '中途关闭人数', '中途关闭次数', '观看结束人数', '观看结束次数', '获得奖励人数', '获得奖励次数', '完成DAU占比'], widthArr: [85, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70] }
+  ]
 
   static hudKey = null
 
@@ -45,9 +46,10 @@ export default class SharedPage extends React.Component {
         <SegmentedBar onChange={(index) => this.onTableSegChange(index)}>
           <SegmentedBar.Item title='分享出'/>
           <SegmentedBar.Item title='分享入'/>
+          <SegmentedBar.Item title='广告统计'/>
         </SegmentedBar>
         <ScrollView horizontal={true} style={styles.tableContainer}>
-          <Table borderStyle={{borderColor: '#C0C0C0'}}>
+          <Table borderStyle={{borderColor: '#DADADA', borderWidth: .5}}>
             <Row data={tableData.head} widthArr={tableData.widthArr} style={styles.tableHeader} textStyle={styles.tableText}/>
             <Rows data={tableData.data} widthArr={tableData.widthArr} style={styles.tableRow} textStyle={styles.tableText}/>
           </Table>
@@ -67,26 +69,45 @@ export default class SharedPage extends React.Component {
 
   loadTableData(selected, index) {
     SharedPage.hudKey = HUD.show()
-    let result = {...this.sharedHeaderTitle.out}
-    if (index === 1) {
-      result = {...this.sharedHeaderTitle.in}
-    }
-    console.log('selected', selected)
+    let result = Object.assign({ data: [] }, this.sharedHeaderTitle[index])
     apiGetShared(selected, index).then(ret => {
-      let attrKey = RestoreUtil.getOptionName(this.refs.searchPickerRef.groupType).key
-      TransferUtil.searchOption(ret.info, this.refs.searchPickerRef.originOptions, attrKey, dimension)
+      let attrKey = RestoreUtil.getOptionName(this.refs.searchPickerRef.state.groupType).key
+      TransferUtil.searchOption(ret.info, this.refs.searchPickerRef.state.originOptions, attrKey, 'dimension', true)
       ret.info.forEach(el => {
-        result.data.push([
-          el.dt,
-          el.dimension,
-          TransferUtil.numFormatter(el.num),
-          TransferUtil.numFormatter(el.dau, 'percent'),
-          TransferUtil.numFormatter(el.count),
-        //  分享入
-          TransferUtil.numFormatter(el.newShare),
-          TransferUtil.numFormatter(el.newShareRate, 'percent'),
-          TransferUtil.numFormatter(el.shareValidRate, 'percent'),
-        ])
+        if (index === 2) {
+          result.data.push([
+            el.dt,
+            el.dimension,
+            el.point,
+
+            TransferUtil.numFormatter(el.activeOpenNum),
+            TransferUtil.numFormatter(el.activeOpenCount),
+            TransferUtil.numFormatter(el.activeCloseNum),
+            TransferUtil.numFormatter(el.activeCloseCount),
+            TransferUtil.numFormatter(el.openVideoNum),
+            TransferUtil.numFormatter(el.openVideoCount),
+            TransferUtil.numFormatter(el.midwayCloseVideoNum),
+            TransferUtil.numFormatter(el.midwayCloseVideoCount),
+            TransferUtil.numFormatter(el.watchEndNum),
+            TransferUtil.numFormatter(el.watchEndCount),
+            TransferUtil.numFormatter(el.obtainRewardNum),
+            TransferUtil.numFormatter(el.obtainRewardCount),
+            TransferUtil.numFormatter(el.dau, 'percent'),
+          ])
+        } else {
+          result.data.push([
+            el.dt,
+            el.dimension,
+            el.point,
+            TransferUtil.numFormatter(el.num),
+            TransferUtil.numFormatter(el.dau, 'percent'),
+            TransferUtil.numFormatter(el.count),
+          //  分享入
+            TransferUtil.numFormatter(el.newShare),
+            TransferUtil.numFormatter(el.newShareRate, 'percent'),
+            TransferUtil.numFormatter(el.shareValidRate, 'percent'),
+          ])
+        }
       })
     }).finally(() => {
       if (this._mounted) {
@@ -94,6 +115,7 @@ export default class SharedPage extends React.Component {
           state.curSelected = selected
           state.tableSeg = index
           state.tableData = result
+          console.log(result)
           return state
         })
       }
@@ -104,10 +126,8 @@ export default class SharedPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: 'white'
   },
   tableContainer: {
-    marginTop: 2,
     marginHorizontal: 1,
     backgroundColor: 'white'
   },

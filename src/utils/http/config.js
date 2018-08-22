@@ -1,9 +1,9 @@
-import {apiGatewayURL} from '../../../app.json'
+import ENV from '../../config'
 
 export default {
     
     // 基础路径
-    baseURL: `${apiGatewayURL}/`,
+    baseURL: `${ENV.apiGatewayURL}/`,
 
     method: 'POST',
 

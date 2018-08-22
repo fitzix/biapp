@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { ScrollView, StyleSheet } from "react-native"
 import {SegmentedBar} from 'teaset'
-import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
+import { Table, Row, Rows } from 'react-native-table-component'
 
 
 import SearchPicker from '../../components/SearchPicker'
@@ -39,7 +39,7 @@ export default class RealTimePage extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <SearchPicker ref='searchPickerRef' onSearch={this.onSearch} />
+        <SearchPicker onSearch={this.onSearch} />
         <SegmentedBar justifyItem='scrollable' onChange={(index) => this.onSegmentedBarChange(index)}>
           <SegmentedBar.Item title='在线玩家'/>
           <SegmentedBar.Item title='新增账号'/>
@@ -87,12 +87,9 @@ export default class RealTimePage extends Component {
           <SegmentedBar.Item title='区服付费Top5' />
         </SegmentedBar>
 
-        <Table style={styles.topTableContainer} borderStyle={{borderColor: '#C0C0C0'}}>
+        <Table style={styles.topTableContainer} borderStyle={{borderWidth: .5, borderColor: '#DADADA'}}>
           <Row data={this.state.tableData.head} flexArr={[1, 3, 2, 2]} style={styles.topTableHead} textStyle={styles.topTableText}/>
-          <TableWrapper style={styles.topTableWrapper}>
-            <Col data={this.state.tableData.title} style={styles.topTableTitle} heightArr={[28,28]} textStyle={styles.topTableText}/>
-            <Rows data={this.state.tableData.data} flexArr={[3, 2, 2]} style={styles.topTableRow} textStyle={styles.topTableText}/>
-          </TableWrapper>
+          <Rows data={this.state.tableData.data} flexArr={[1, 3, 2, 2]} style={styles.topTableRow} textStyle={styles.topTableText}/>
         </Table>
 
       </ScrollView>
@@ -134,22 +131,20 @@ export default class RealTimePage extends Component {
   }
 
   async loadTop5(index) {
-    let result = { title: [], data: [] }
+    let result = { data: [] }
     try {
       let ret = await apiGetTop5(1, 5, index + 1)
       let curSearchOption = await StorageUtil.getCurSearchOption()
       TransferUtil.top5(ret.info, curSearchOption, index + 1)
       console.log('trans', ret.info)
       ret.info.forEach((el, index) => {
-        result.title.push(index + 1)
-        result.data.push([el.id, el.count, el.day])
+        result.data.push([index + 1,el.id, el.count, el.day])
       })
 
     } finally {
       if (this._mounted) {
         this.setState(state => {
           state.tableSeg = index
-          state.tableData.title = result.title
           state.tableData.data = result.data
           return state
         })
@@ -164,12 +159,11 @@ const styles = StyleSheet.create({
   },
   chart: {
     height: 300,
-    marginVertical: 2,
+    marginVertical: 1,
     marginHorizontal: 2
   },
   topTableContainer: {
-    backgroundColor: 'white',
-    marginTop: 2
+    backgroundColor: 'white'
   },
   topTableHead: {
     height: 20,
