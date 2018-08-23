@@ -1,4 +1,4 @@
 export default {
-  apiGatewayURL: 'http://192.168.102.195:10001',
+  apiGatewayURL: 'http://test.bigdata.leuok.com',
   desPubKey: ['xmob', 'X', 'MOB']
 }

@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 2
   },
   topTableContainer: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginTop: 5
   },
   topTableHead: {
     height: 20,

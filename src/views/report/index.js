@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
   container: {},
   tableContainer: {
     marginHorizontal: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginTop: 5
   },
   tableWrapper: {flexDirection: 'row'},
   tableHeader: {
