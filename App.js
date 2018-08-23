@@ -75,7 +75,7 @@ export default class App extends Component<Props> {
 
   doUpdate = info => {
     downloadUpdate(info).then(hash => {
-      Alert.alert('提示', '下载完毕,是否重启应用?', [
+      Alert.alert('提示', '更新下载完毕,是否重启应用?', [
         {text: '是', onPress: ()=>{switchVersion(hash)}},
         {text: '下次启动时', onPress: ()=>{switchVersionLater(hash)}},
       ]);
@@ -91,9 +91,9 @@ export default class App extends Component<Props> {
           {text: '确定', onPress: ()=>{info.downloadUrl && Linking.openURL(info.downloadUrl)}},
         ])
       } else if (info.update) {
-        Alert.alert('提示', `检查到新的版本${info.name},是否下载?\n${info.description}`, [
-          {text: '开始下载', onPress: ()=>{this.doUpdate(info)}},
-          {text: '残忍拒绝'}
+        // 强制更新
+        Alert.alert('提示', `检查到新的版本${info.name}\n\n${info.description}`, [
+          {text: '开始下载', onPress: ()=>{this.doUpdate(info)}}
         ])
       }
     })

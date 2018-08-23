@@ -1,6 +1,10 @@
 
 const restoreDataUtil = {
   parseGameTypes(gameTypes, gameLists) {
+    if (gameTypes[0].value === 0) {
+      gameTypes.shift()
+    }
+
     gameTypes.forEach(el => {
       el.data = []
     })
