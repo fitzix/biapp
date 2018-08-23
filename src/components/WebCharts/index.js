@@ -90,7 +90,7 @@ export default class WebChart extends React.Component {
           scrollEnabled={false}
           scalesPageToFit={os !== 'ios'}
           originWhitelist={['*']}
-          source={os === 'ios' ? echartsSource : {uri: `http://adconfig.leuok.cn/biapp.html?key=${this._webChartHash}`}}
+          source={os === 'ios' ? echartsSource : {uri: `http://adcdn.leuok.cn/app/biapp.html?key=${this._webChartHash}`}}
           injectedJavaScript={`
             const chart = echarts.init(document.getElementById('main'), null, { renderer: 'svg' });
             var receiveData = ${JSON.stringify(this.props.option)};
