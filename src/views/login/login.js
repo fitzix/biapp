@@ -1,5 +1,5 @@
 import React from 'react'
-import {KeyboardAvoidingView, Text, TextInput, StyleSheet} from 'react-native'
+import {KeyboardAvoidingView, Text, TextInput, StyleSheet, Platform} from 'react-native'
 import Button from 'apsl-react-native-button'
 
 import CNTextInput from '../../components/CNTextInput'
@@ -57,8 +57,8 @@ export default class LoginPage extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Text style={styles.appTitle}>BIAPP</Text>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+        <Text>BIAPP</Text>
         <CNTextInput style={styles.loginInput} placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})} />
         <TextInput style={styles.loginInput} clearButtonMode='while-editing' placeholder="请输入密码" value={this.state.passwd} onChangeText={(passwd) => this.setState({passwd})} secureTextEntry={true}/>
         <Button style={styles.buttonStyle} isLoading={this.state.isLoading} textStyle={styles.textStyle} onPress={() => this.handleLogin()}>登录</Button>
@@ -68,13 +68,11 @@ export default class LoginPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  appTitle: {
-    textAlign: 'center'
-  },
   container: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     marginLeft: 20,
     marginRight: 20
   },
