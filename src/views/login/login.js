@@ -1,5 +1,5 @@
 import React from 'react'
-import {KeyboardAvoidingView, Text, TextInput, StyleSheet, Platform} from 'react-native'
+import {KeyboardAvoidingView, Text, TextInput,View, StyleSheet, Platform} from 'react-native'
 import Button from 'apsl-react-native-button'
 
 import CNTextInput from '../../components/CNTextInput'
@@ -58,10 +58,12 @@ export default class LoginPage extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <Text>大数据平台</Text>
-        <CNTextInput style={styles.loginInput} placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})} />
-        <TextInput style={styles.loginInput} clearButtonMode='while-editing' placeholder="请输入密码" value={this.state.passwd} onChangeText={(passwd) => this.setState({passwd})} secureTextEntry={true}/>
-        <Button style={styles.buttonStyle} isLoading={this.state.isLoading} textStyle={styles.textStyle} onPress={() => this.handleLogin()}>登录</Button>
+        <View style={styles.content}>
+          <Text style={styles.title}>大数据平台</Text>
+          <CNTextInput style={styles.loginInput} placeholder="请输入账号" value={this.state.account} onChangeText={(account) => this.setState({account})} />
+          <TextInput style={styles.loginInput} clearButtonMode='while-editing' placeholder="请输入密码" value={this.state.passwd} onChangeText={(passwd) => this.setState({passwd})} secureTextEntry={true}/>
+          <Button style={styles.buttonStyle} isLoading={this.state.isLoading} textStyle={styles.textStyle} onPress={() => this.handleLogin()}>登录</Button>
+        </View>
       </KeyboardAvoidingView>
     )
   }
@@ -69,12 +71,19 @@ export default class LoginPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
+    flex: 1
+  },
+  content: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 20
+    marginHorizontal: 20
+  },
+  title: {
+    fontSize: 18,
+    color: 'tomato'
   },
   loginInput: {
     height: 40,
