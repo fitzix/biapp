@@ -114,7 +114,7 @@ export default class SearchPicker extends Component {
 
   render() {
     return (
-      <View style={{flexDirection: 'row', marginVertical: 1, marginHorizontal: 2}}>
+      <View style={{flexDirection: 'row', marginVertical: 3, marginHorizontal: 2}}>
         { this.props.useGroup &&
         <Select
           style={{flex: 0.5, height: 40, borderWidth: 0, marginRight: 2, borderRadius: 0}}
