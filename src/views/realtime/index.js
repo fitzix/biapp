@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { ScrollView, StyleSheet } from "react-native"
+import { ScrollView, StyleSheet, Text } from "react-native"
 import {SegmentedBar} from 'teaset'
 import { Table, Row, Rows } from 'react-native-table-component'
 
@@ -18,6 +18,7 @@ export default class RealTimePage extends Component {
     yFormatter: 'thousand',
     chartSeg: 0,
     tableSeg: 0,
+    total: null,
     chartData: null,
     tableData: {
       head: ['#', '类型', '数量', '日环比'],
@@ -51,6 +52,7 @@ export default class RealTimePage extends Component {
           <SegmentedBar.Item title='实时DAU'/>
         </SegmentedBar>
 
+        <Text style={styles.totalText}>累计: {this.state.total}</Text>
         <WebChart
           style={styles.chart}
           option={
@@ -58,12 +60,19 @@ export default class RealTimePage extends Component {
               //自定义属性 percent
               yFormatter: this.state.yFormatter,
               legend: { 
-                data: ['今日', '昨日', '上周']
+                data: ['今日', '昨日', '上周'],
+                top: 5
               },
               tooltip: {},
               dataset: {
                 dimensions: ['axis', 'count1', 'count2', 'count3'],
                 source: this.state.chartData || [{ axis: null, count1: 0, count2: 0, count3: 0 }]
+              },
+              grid: {
+                left: '9%',
+                top: 30,
+                right: 17,
+                bottom: 25
               },
               xAxis: {type: 'category'},
               yAxis: {
@@ -98,34 +107,40 @@ export default class RealTimePage extends Component {
 
   // 点击查询
   onSearch = (selected, loadTop5) => {
-    RealTimePage.hudKey = HUD.show()
-    apiRealTime(selected, this.state.chartSeg + 1).then(ret => {
-      this.setState({ curSelected: selected, chartData: ret.info })
-    }).finally(() => {
-      HUD.hide(RealTimePage.hudKey)
-    })
+    this.loadChartData(this.state.chartSeg, selected)
     if (loadTop5 !== undefined) {
       this.loadTop5(this.state.tableSeg)
     }
   }
 
-
   onSegmentedBarChange(index) {
-    let chartData = null
-    RealTimePage.hudKey = HUD.show()
-    apiRealTime(this.state.curSelected, index + 1).then(ret => {
-      chartData = ret.info
-    }).finally( () => {
-      if (this._mounted) {
-        this.setState({ chartSeg: index, chartData: chartData, yFormatter: index === 5 ? 'percent' : '' })
-      }
-      HUD.hide(RealTimePage.hudKey)
-    })
+    this.loadChartData(index, this.state.curSelected)
   }
 
   onTabSegChange(index) {
     RealTimePage.hudKey = HUD.show()
     this.loadTop5(index).finally(() => {
+      HUD.hide(RealTimePage.hudKey)
+    })
+  }
+
+  loadChartData(index, selected) {
+    let chartData = null
+    let totalText = null
+    RealTimePage.hudKey = HUD.show()
+    apiRealTime(selected, index + 1).then(ret => {
+      chartData = ret[0].info
+      totalText = ret[1].info
+    }).finally( () => {
+      if (this._mounted) {
+        this.setState({
+          curSelected: selected, 
+          chartSeg: index, 
+          total: totalText, 
+          chartData: chartData, 
+          yFormatter: index === 5 ? 'percent' : '' 
+        })
+      }
       HUD.hide(RealTimePage.hudKey)
     })
   }
@@ -157,10 +172,19 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: 'white'
   },
+  totalText: {
+    textAlign: 'center',
+    backgroundColor: '#FFF',
+    height: 25,
+    lineHeight: 25,
+    marginTop: 4,
+    color: '#5A5A5A'
+  },
   chart: {
     height: 300,
-    marginVertical: 1,
-    marginHorizontal: 2
+    // marginVertical: 1,
+    marginHorizontal: 2,
+    marginBottom: 3
   },
   topTableContainer: {
     backgroundColor: 'white',

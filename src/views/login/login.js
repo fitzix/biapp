@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
     borderBottomWidth: .3,
-    borderBottomColor: 'tomato',
+    borderBottomColor: '#CDCDCD',
     alignSelf: 'stretch',
     marginTop: 20,
   },

@@ -66,7 +66,8 @@ let TabNavigator = createBottomTabNavigator(
 export default class tabPage extends React.Component {
 
   state = {
-    sectionData: []
+    sectionData: [],
+    curGame: {}
   }
 
   static router = TabNavigator.router
@@ -86,7 +87,7 @@ export default class tabPage extends React.Component {
     StorageUtil.getSideBarData().then(({data, game}) => {
       this.props.navigation.setParams({navBarTitle: game.name})
       if (this._mounted) {
-        this.setState({sectionData: data})
+        this.setState({sectionData: data, curGame: game})
       }
     }).catch(() => {})
   }
@@ -104,9 +105,37 @@ export default class tabPage extends React.Component {
 
   _showSideBar = () => {
     this.drawer = Drawer.open(this.renderDrawerMenu())
+
+    let curGame = this.state.curGame
+
+    let sectionIndex = this.state.sectionData.findIndex(el => curGame.type === el.value)
+    console.log(sectionIndex)
+
+    let itemIndex = this.state.sectionData[sectionIndex].data.findIndex(el => {
+      el.id === curGame.id
+    })
+
+    // this.sectionList.scrollToLocation({
+    //   sectionIndex: sectionIndex,
+    //   itemIndex: itemIndex
+    // })
+    console.log(this.sectionList)
+
+    this.sectionList.scrollToLocation({
+      sectionIndex: 4,
+      itemIndex: 2
+    })
+
+    // try {
+     
+    // } catch (e) {
+
+    // }
   }
 
   onChooseGame(game) {
+
+
     // 当前游戏
     global.storage.save({
       key: 'game',
@@ -117,10 +146,12 @@ export default class tabPage extends React.Component {
   }
 
   renderDrawerMenu() {
+    let _this = this
     return (
       <View style={{backgroundColor: Theme.defaultColor, width: 260, flex: 1}}>
         <View style={{height: 40}}/>
         <SectionList
+          ref={ref => _this.sectionList = ref}
           renderItem={({item}) => <ListRow title={ item.name } titleStyle={{ fontSize: 14 }} onPress={() =>  this.onChooseGame(item) } /> }
           renderSectionHeader={({section: { name }}) => {
             return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center', fontSize: 16 }} title={ name } bottomSeparator='none'/>

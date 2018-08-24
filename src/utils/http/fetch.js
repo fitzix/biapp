@@ -56,6 +56,11 @@ export function post(url, data, timeout) {
     return axios.post(`UrlCenter/${url}`, data, defaultConfig)
 }
 
+export function all(...requests) {
+  return axios.all(requests)
+}
+
+
 export function postEntryHandler(menu,data) {
   return axios.post('UrlCenter/RequestEntryHandler', { menu_id: menu, request_data: data }, defaultConfig)
 }

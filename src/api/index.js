@@ -1,6 +1,6 @@
 import MomentJS from 'moment'
 
-import {post, postEntryHandler} from '../utils/http/fetch'
+import {post, all, postEntryHandler} from '../utils/http/fetch'
 import encryptUtil from '../utils/encrypt'
 import StorageUtil from '../utils/storage'
 import ENV from '../config'
@@ -31,7 +31,7 @@ export async function apiRealTime(options, type) {
 
   try {
     let curGame = await StorageUtil.getCurGame()
-    return postEntryHandler(104004, { ...options, type, gameId: curGame.id })
+    return all(postEntryHandler(104004, { ...options, type, gameId: curGame.id }), postEntryHandler(200032004, { ...options, type, gameId: curGame.id }))
   } catch (e) {
     return Promise.reject(e)
   }

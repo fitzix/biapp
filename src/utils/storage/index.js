@@ -24,6 +24,7 @@ const storageUtil = {
     clearAll() {
       global.storage.clearMap()
       global.storage.remove({ key: 'user' })
+      global.storage.remove({ key: 'game' })
       global.storage.remove({ key: 'gameTypes' })
     },
 
@@ -58,16 +59,21 @@ const storageUtil = {
 
     // 获取当前游戏平台渠道信息
     async getCurSearchOption() {
-      try {
-        let curGame = await this.getCurGame()
-        return global.storage.load({
-          key: 'optionList',
-          id: curGame.id,
-          syncInBackground: false
-        })
-      } catch (e) {
-        return Promise.reject(e)
+      let curGame = await this.getCurGame().catch(() => false)
+      if (!curGame) {
+        await RestoreUtil.sleep(1000) 
+        try {
+          curGame = await this.getCurGame()
+        } catch (e) {
+          return Promise.reject(e)
+        }
       }
+
+      return global.storage.load({
+              key: 'optionList',
+              id: curGame.id,
+              syncInBackground: false
+            })
     }
 }
 

@@ -801,7 +801,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2R8XG2H254;
+						DevelopmentTeam = K3YB5SAT5C;
 						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -1377,7 +1377,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 2R8XG2H254;
+				DEVELOPMENT_TEAM = K3YB5SAT5C;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1390,10 +1390,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gameley.glbiapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gameley.glybiapp;
 				PRODUCT_NAME = biapp;
-				PROVISIONING_PROFILE = "951def76-1e28-47d1-a1a9-7bd6de7af9f7";
-				PROVISIONING_PROFILE_SPECIFIER = glbiapp_profile_distribution_ios;
+				PROVISIONING_PROFILE = "eb50c79b-810e-4816-9ea3-774fe1a818c6";
+				PROVISIONING_PROFILE_SPECIFIER = glybiapp_profile;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1406,7 +1406,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2R8XG2H254;
+				DEVELOPMENT_TEAM = K3YB5SAT5C;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1419,10 +1419,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gameley.glbiapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gameley.glybiapp;
 				PRODUCT_NAME = biapp;
-				PROVISIONING_PROFILE = "951def76-1e28-47d1-a1a9-7bd6de7af9f7";
-				PROVISIONING_PROFILE_SPECIFIER = glbiapp_profile_distribution_ios;
+				PROVISIONING_PROFILE = "eb50c79b-810e-4816-9ea3-774fe1a818c6";
+				PROVISIONING_PROFILE_SPECIFIER = glybiapp_profile;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

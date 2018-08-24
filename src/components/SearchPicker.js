@@ -37,7 +37,7 @@ export default class SearchPicker extends Component {
   parsedOptions = new Map()
 
   componentWillMount() {
-    StorageUtil.getCurSearchOption().then(ret => {
+    StorageUtil.getCurSearchOption(23232).then(ret => {
       let options = []
       let selected = []
       for (let i in ret) {
@@ -70,6 +70,16 @@ export default class SearchPicker extends Component {
       this.onConfirm(true)
     })
   }
+  
+
+  componentDidMount() {
+    this._mounted = true
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
 
   onSelectedItemObjectsChange = (selectedItems) => {
     this.setState({selected: selectedItems})
@@ -105,11 +115,10 @@ export default class SearchPicker extends Component {
       this.state.selected.forEach(el => {
         groupSelected.item.push(el.id)
       })
-      onSearch(groupSelected)
     } else {
       groupSelected = Object.assign(groupSelected, RestoreUtil.groupedOptionSelected(this.state.selected))
-      onSearch(groupSelected, isFirst)
     }
+    onSearch(groupSelected, isFirst)
   }
 
   render() {

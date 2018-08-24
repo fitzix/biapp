@@ -54,6 +54,10 @@ const restoreDataUtil = {
       }
     })
     return selected
+  },
+
+  sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
   }
 }
 
