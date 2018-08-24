@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {createBottomTabNavigator} from 'react-navigation'
-import {SectionList, View} from "react-native"
+import {SectionList, View, PixelRatio} from "react-native"
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {Drawer, ListRow, Theme} from "teaset"
-
+import sectionListGetItemLayout from 'react-native-section-list-get-item-layout'
+import PropTypes from "prop-types"
 
 import RealTimePage from '../realtime'
 import ReportPage from '../report'
@@ -63,14 +64,13 @@ let TabNavigator = createBottomTabNavigator(
   }
 )
 
-export default class tabPage extends React.Component {
+export default class tabPage extends Component {
+  static router = TabNavigator.router
 
   state = {
     sectionData: [],
     curGame: {}
   }
-
-  static router = TabNavigator.router
 
   static navigationOptions = ({navigation}) => {
     return {
@@ -83,6 +83,7 @@ export default class tabPage extends React.Component {
 
   componentDidMount() {
     this._mounted = true
+
     this.props.navigation.setParams({openSideBar: this._showSideBar})
     StorageUtil.getSideBarData().then(({data, game}) => {
       this.props.navigation.setParams({navBarTitle: game.name})
@@ -104,63 +105,82 @@ export default class tabPage extends React.Component {
   }
 
   _showSideBar = () => {
-    this.drawer = Drawer.open(this.renderDrawerMenu())
+    this.drawer = Drawer.open(<SideBar onGameChange={this.onGameChange} sectionData={this.state.sectionData} curGame={this.state.curGame} />)
+  }
 
-    let curGame = this.state.curGame
+  onGameChange = () => {
+    this.drawer && this.drawer.close()
+  }
+}
 
-    let sectionIndex = this.state.sectionData.findIndex(el => curGame.type === el.value)
-    console.log(sectionIndex)
 
-    let itemIndex = this.state.sectionData[sectionIndex].data.findIndex(el => {
-      el.id === curGame.id
+
+class SideBar extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.getItemLayout = sectionListGetItemLayout({
+      // The height of the row with rowData at the given sectionIndex and rowIndex
+      getItemHeight: (rowData, sectionIndex, rowIndex) => sectionIndex === 0 ? 0 : 44,
+
+      // These four properties are optional
+      getSeparatorHeight: () => 1 / PixelRatio.get(), // The height of your separators
+      getSectionHeaderHeight: () => 44, // The height of your section headers
+      getSectionFooterHeight: () => 0, // The height of your section footers
+      listHeaderHeight: 0, // The height of your list header
     })
+  }
 
-    // this.sectionList.scrollToLocation({
-    //   sectionIndex: sectionIndex,
-    //   itemIndex: itemIndex
-    // })
-    console.log(this.sectionList)
+  static propTypes = {
+    onGameChange: PropTypes.func,
+    sectionData: PropTypes.array,
+    curGame: PropTypes.object
+  }
 
-    this.sectionList.scrollToLocation({
-      sectionIndex: 4,
-      itemIndex: 2
-    })
+  componentDidMount() {
+    this.scrollToCurGame()
+  }
 
-    // try {
-     
-    // } catch (e) {
+  render() {
+    let {sectionData} = this.props
 
-    // }
+    return (
+      <View style={{backgroundColor: Theme.defaultColor, width: 260, flex: 1}}>
+        <View style={{height: 40}}/>
+        <SectionList
+          ref={ref => this.sectionList = ref}
+          renderItem={({item}) => <ListRow title={ item.name } titleStyle={{ fontSize: 14 }} onPress={() =>  this.onChooseGame(item) } /> }
+          renderSectionHeader={({section: { name }}) => {
+            return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center', fontSize: 16 }} title={ name } bottomSeparator='none'/>
+          }}
+          sections={ sectionData }
+          keyExtractor={(item, index) => item + index}
+          getItemLayout={this.getItemLayout}
+        />
+        <View style={{height: 40}}/>
+      </View>
+    )
   }
 
   onChooseGame(game) {
-
-
+    this.props.onGameChange(game)
     // 当前游戏
     global.storage.save({
       key: 'game',
       data: game
     })
-    this.drawer && this.drawer.close()
     NavService.reset('MainPage')
   }
 
-  renderDrawerMenu() {
-    let _this = this
-    return (
-      <View style={{backgroundColor: Theme.defaultColor, width: 260, flex: 1}}>
-        <View style={{height: 40}}/>
-        <SectionList
-          ref={ref => _this.sectionList = ref}
-          renderItem={({item}) => <ListRow title={ item.name } titleStyle={{ fontSize: 14 }} onPress={() =>  this.onChooseGame(item) } /> }
-          renderSectionHeader={({section: { name }}) => {
-            return <ListRow titleStyle={{ color: 'tomato', textAlign: 'center', fontSize: 16 }} title={ name } bottomSeparator='none'/>
-          }}
-          sections={ this.state.sectionData }
-          keyExtractor={(item, index) => item + index}
-        />
-        <View style={{height: 40}}/>
-      </View>
-    )
+  scrollToCurGame() {
+    let {sectionData,curGame} = this.props
+    let sectionIndex = sectionData.findIndex(el => curGame.type === el.value)
+    let itemIndex = sectionData[sectionIndex].data.findIndex(el => el.id === curGame.id)
+
+    this.sectionList.scrollToLocation({
+      sectionIndex: sectionIndex,
+      itemIndex: itemIndex
+    })
   }
 }

@@ -71,7 +71,7 @@ export default class RealTimePage extends Component {
               grid: {
                 left: '9%',
                 top: 30,
-                right: 17,
+                right: '5%',
                 bottom: 25
               },
               xAxis: {type: 'category'},
@@ -175,14 +175,15 @@ const styles = StyleSheet.create({
   totalText: {
     textAlign: 'center',
     backgroundColor: '#FFF',
-    height: 25,
-    lineHeight: 25,
+    height: 35,
+    lineHeight: 35,
+    fontSize: 15,
     marginTop: 4,
     color: '#5A5A5A'
   },
   chart: {
     height: 300,
-    // marginVertical: 1,
+    marginVertical: 1,
     marginHorizontal: 2,
     marginBottom: 3
   },
