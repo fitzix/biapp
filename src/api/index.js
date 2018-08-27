@@ -62,8 +62,18 @@ export async function apiGetShared(options, seg) {
   let menuID = [60121011, 60122011, 60111011][seg]
   try {
     let curGame = await StorageUtil.getCurGame()
-    return postEntryHandler(menuID, { ...options, gameId: curGame.id, curPage: 1, pageSize: 90 })
+    return postEntryHandler(menuID, { ...options, gameId: curGame.id, curPage: 1, pageSize: 60 })
   }catch (e) {
+    return Promise.reject(e)
+  }
+}
+
+// 翻译数据
+export async function apiGetTranslate(options) {
+  try {
+    let curGame = await StorageUtil.getCurGame()
+    return postEntryHandler(203006, {gameId: curGame.id, ...options})
+  } catch (e) {
     return Promise.reject(e)
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import {AsyncStorage} from 'react-native'
 import Storage from 'react-native-storage'
 
-import { apiGameTypes, apiListByType } from '../../api/index'
+import { apiGameTypes, apiListByType, apiGetTranslate } from '../../api/index'
 
 let storage = new Storage({
     // 最大容量，默认值1000条数据循环存储
@@ -29,18 +29,29 @@ let storage = new Storage({
           let { resolve, reject } = params
           apiGameTypes().then(ret => {
             storage.save({ key: 'gameTypes', data: ret.info })
-            resolve(ret.info)
+            resolve && resolve(ret.info)
           }).catch(err => {
-            reject(err)
+            reject && reject(err)
           })
         },
+      // 获取下拉框数据
         optionList(params) {
           let { id, resolve, reject } = params
           apiListByType([1, 2, 3, 4, 5], id).then( ret => {
             storage.save({ key: 'optionList', id: id, data: ret.info })
-            resolve(ret.info)
+            resolve && resolve(ret.info)
           }).catch(err => {
-            reject(err)
+            reject && reject(err)
+          })
+        },
+      // 获取翻译数据
+        translateList(params) {
+          let { id, resolve, reject, syncParams: { extraFetchOptions } } = params
+          apiGetTranslate(extraFetchOptions).then(ret => {
+            storage.save({ key: 'translateList', id, data: ret.infos })
+            resolve && resolve(ret.infos)
+          }).catch(err => {
+            reject && reject(err)
           })
         }
     }

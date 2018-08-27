@@ -1,3 +1,4 @@
+import _ from 'lodash'
 
 const transfer = {
   // top5 数据翻译
@@ -19,6 +20,14 @@ const transfer = {
 
   options2map(source) {
     let result = new Map()
+
+    if (_.isArray(source)) {
+      source.forEach(el => {
+        result.set(el.id, el.name)
+      })
+      return result
+    }
+
     for (let i in source) {
       result.set(i, new Map(source[i].map(el => [el.id, el.name])))
     }
@@ -57,27 +66,33 @@ const transfer = {
    * @param from 基准源数据
    * @param type 平台/渠道/....
    * @param key 字段名
-   * @param point 分享页面功能点翻译
    */
-  searchOption(to, from, type, key, point) {
+  searchOption(to, from, type, key) {
+
     if (to.length > 0 && from.hasOwnProperty(type)) {
       let options = this.options2map(from).get(type)
       to.forEach(el => {
-        let temp = options.get(el[key])
-        if (temp) {
-          el[key] = temp
-        }
-        if (point) {
-          this.sharedPoint(el)
+        if (options.has(el[key])) {
+          el[key] = options.get(el[key])
         }
       })
     }
   },
 
-  sharedPoint(item) {
-    if (item.point === 9999999) {
-      item.point = '总计'
-    }
+  unionTranslate(to, from, ...attrs) {
+    let options = this.options2map(from)
+    console.log(options)
+    to.forEach(el => {
+      attrs.forEach(key => {
+        if (key === 'point' && el[key] === 9999999) {
+          el[key] = '总计'
+          return
+        }
+        if (options.has(`${el[key]}`)) {
+          el[key] = options.get(`${el[key]}`)
+        }
+      })
+    })
   }
 }
 

@@ -122,7 +122,7 @@ class SideBar extends Component {
 
     this.getItemLayout = sectionListGetItemLayout({
       // The height of the row with rowData at the given sectionIndex and rowIndex
-      getItemHeight: (rowData, sectionIndex, rowIndex) => sectionIndex === 0 ? 0 : 44,
+      getItemHeight: (rowData, sectionIndex, rowIndex) => sectionIndex === 0 ? 20 : 44,
 
       // These four properties are optional
       getSeparatorHeight: () => 1 / PixelRatio.get(), // The height of your separators
@@ -157,6 +157,7 @@ class SideBar extends Component {
           sections={ sectionData }
           keyExtractor={(item, index) => item + index}
           getItemLayout={this.getItemLayout}
+          initialNumToRender={30}
         />
         <View style={{height: 40}}/>
       </View>

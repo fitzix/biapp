@@ -24,7 +24,6 @@ const storageUtil = {
     clearAll() {
       global.storage.clearMap()
       global.storage.remove({ key: 'user' })
-      global.storage.remove({ key: 'game' })
       global.storage.remove({ key: 'gameTypes' })
     },
 
@@ -61,7 +60,7 @@ const storageUtil = {
     async getCurSearchOption() {
       let curGame = await this.getCurGame().catch(() => false)
       if (!curGame) {
-        await RestoreUtil.sleep(1000) 
+        await RestoreUtil.sleep(700)
         try {
           curGame = await this.getCurGame()
         } catch (e) {
@@ -74,6 +73,21 @@ const storageUtil = {
               id: curGame.id,
               syncInBackground: false
             })
+    },
+
+    // 获取翻译数据
+    async getTranslate(options) {
+      let curGame = await this.getCurGame().catch(() => false)
+      if (curGame) {
+        return global.storage.load({
+          key: 'translateList',
+          id: `${curGame.id}-${options}`,
+          syncInBackground: false,
+          syncParams: {
+            extraFetchOptions: options
+          },
+        })
+      }
     }
 }
 
